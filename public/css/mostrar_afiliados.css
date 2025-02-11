@@ -1,0 +1,247 @@
+*{
+    padding: none;
+    margin: none;
+
+}
+body {
+    font-family: 'Roboto', sans-serif;
+}
+td{
+box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.333); 
+text-align: center;
+margin-top: 10px;
+width: 310px;
+}
+
+th{
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.333); 
+    font-size: 20PX;
+    width: 310px;
+}
+table{
+    border: none;
+    margin-top: 3%;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container_buscar{
+    display: flex;
+    width: 97vw;
+    justify-content: center;
+    align-items: center;
+}
+.container_buscar_input{
+    display: flex;
+    width: 500px;
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.687);
+    border-radius: 50px;
+    margin-top: 2%;
+    
+}
+.buscar_input{
+    width: 500px;
+    height: 40px;
+    border-radius:  50px 0  0  50px  ;
+    border: none;
+   text-align: center;
+   font-size: 17px;
+}
+input {
+    appearance: none; /* Elimina estilos predeterminados de Webkit */
+    -webkit-appearance: none; /* Elimina estilos predeterminados de Webkit en Chrome/Safari */
+}
+input:focus {
+    background-color: transparent;
+    outline: none;
+    box-shadow: none;
+    -webkit-box-shadow: none; /* Asegura que no haya sombra en Webkit */
+    -moz-box-shadow: none; /* Asegura que no haya sombra en Firefox */
+}
+.buscar_button{
+    height: 40px;
+    border-radius: 0  50px 50px  0 ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.container_tablaF{
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+}
+
+.container_iconos{
+width: 150px;
+}
+button{
+    margin-left: 5px;
+    border: none;
+    border-radius: 4px;   
+    background-color: rgba(255, 255, 255, 0.247);
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.333); 
+}
+button:hover{
+    cursor: pointer;
+   background-color: rgb(3, 164, 3);
+   
+}
+.container_iconos{
+    border: none; 
+}
+thead{
+    margin: 3%;
+}
+.title_afilaido{
+width: fit-content;
+
+display: flex;
+
+}
+.container_titulo{
+
+  font-size: 28px;
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+}
+.title_principal{
+    width: 700px;
+    font-size: 30px;  
+}
+.title_color{
+    color: red;
+    font-size: 40px;
+}
+.btn_exel{
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(8, 17, 196);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin: 2%;
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.637);
+}
+.btn_pdf{
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: brown;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin: 2%;
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.637);
+}
+.contenedor_btnPDF{
+    display: flex;
+       width: 300px;
+      
+   }
+.icono_img{
+       height: 20px;
+   }
+p{
+    color: white;
+    font-size: 12px;
+   }
+.contenedor_filtros{
+
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+}
+.contenedor_edad{
+    width: 300px;
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.637);
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    
+}
+.input_edad_max{
+    margin-left: 3%;
+}
+.input_edad_mini{
+
+}
+.contenedor_from_edad{
+    display: flex;
+    align-items: center;
+}
+.input_edad_mini, .input_edad_max{
+    width: 100px;
+    height: 30px;
+   
+    border: 2px black; 
+    font-size: 14px;
+    margin: 5px;
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.336);
+}
+label{
+    display:flex;
+     margin-bottom: 5px;
+      color: #333;
+      text-align: center;
+       font-size: 15px;
+}
+.btn_edad{
+    width: 60px;
+    height: 35px;
+     background-color: #007bff; 
+    color: white;
+    font-size: 14px; 
+     border: none; 
+     border-radius: 4px;
+      cursor: pointer;    
+     transition: background-color 0.3s ease;
+}
+.menu{
+    background-color: rgb(249, 240, 207);
+    display: flex;
+    justify-content: center;
+height: 35px;
+   }
+.btn_inicio{
+ width: fit-content;
+ height: 25px;
+background-color: rgb(32, 11, 220);
+color: white;
+font-size: 17px;
+margin: 5px;
+
+   }
+.btn_admi{
+width: fit-content;
+height: 25px;
+background-color: rgb(250, 0, 0);
+color: white;
+font-size: 17px;
+margin: 5px;
+
+   }
+a{
+    color: white;
+    text-decoration: none;
+   padding: 5px;
+}
+.parrafo{
+    padding: 2px 5px 5px 5px ;
+    font-size: 17px;
+}
+hr{ 
+    border: 5% green;
+    margin-top: 5px;
+}

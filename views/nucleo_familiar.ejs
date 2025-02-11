@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/resources/css/detalles_afiliado.css">
+
+    <link rel="stylesheet" href="/resources/css/contenido.css" />
+    <title>Afiliados y Núcleo Familiar</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- ecxel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <header contenedor_img_btn>
+
+    <div class="contenedor_img_btn">
+        <img src="/resources/imagenes/sindicato2.jpg" alt=""
+        class="imagen_logo">
+    </div>
+    <div class="contenedor_btnPDF">
+      <button class="btn_pdf" id="download-pdf"><img class="icono_img" src="/resources/iconos/descargar.png">
+        <p>Descargar PDF</p>
+      </button>
+      <button class="btn_exel" id="download-excel">
+        <img class="icono_img" src="/resources/iconos/descargar.png" alt="Descargar">
+        <p>DESCARGAR EN EXCEL</p>
+      </button>
+    </div>
+  </header>
+</head>
+<body>
+    <% if (afiliados && afiliados.length > 0) { %>
+        <table border="1" width="100%">
+            <% afiliados.forEach(afiliado => { %>
+                <!-- Información del Afiliado Principal -->
+                <tr>
+                    <th colspan="2" style="background-color: #f2f2f2;">AFILIADO</th>
+                </tr>
+                <tr>
+                    <th>Documento</th>
+                    <td><%= afiliado.afiliado_documento %></td>
+                </tr>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <td>
+                        <%= afiliado.afiliado_primer_nombre %> 
+                        <%= afiliado.afiliado_segundo_nombre || '' %> 
+                        <%= afiliado.afiliado_primer_apellido %> 
+                        <%= afiliado.afiliado_segundo_apellido || '' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Tipo Documento</th>
+                    <td><%= afiliado.afiliado_tipo_documento %></td>
+                </tr>
+                <tr>
+                    <th>Fecha Nacimiento</th>
+                    
+                    <td>
+                        <%= afiliado.afiliado_fecha_nacimiento ? new
+                            Date(afiliado.afiliado_fecha_nacimiento).toLocaleDateString('es-CO',
+                            { year: 'numeric' , month: '2-digit' , day: '2-digit' , })
+                            : 'Fecha no disponible' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Género</th>
+                    <td><%= afiliado.afiliado_genero %></td>
+                </tr>
+                <tr>
+                    <th>Correo Electrónico</th>
+                    <td><%= afiliado.afiliado_correo %></td>
+                </tr>
+                <tr>
+                    <th>Correo Alternativo</th>
+                    <td><%= afiliado.afiliado_correo_alternativo %></td>
+                </tr>
+                <tr>
+                    <th>Celular</th>
+                    <td><%= afiliado.afiliado_numero_celular %></td>
+                </tr>
+                <tr>
+                    <th>Celular Alternativo</th>
+                    <td><%= afiliado.afiliado_celular_alternativo %></td>
+                </tr>
+                <tr>
+                    <th>Municipio</th>
+                    <td><%= afiliado.afiliado_municipio %></td>
+                </tr>
+                <tr>
+                    <th>Dirección</th>
+                    <td><%= afiliado.afiliado_direccion %></td>
+                </tr>
+                <tr>
+                    <th>Entidad</th>
+                    <td><%= afiliado.afiliado_entidad %></td>
+                </tr>
+                <tr>
+                    <th>Dependencia</th>
+                    <td><%= afiliado.afiliado_dependencia %></td>
+                </tr>
+
+                <!-- Núcleo Familiar -->
+                <% 
+                // Manejo seguro de familia_info
+                let familiaInfo = [];
+                if (afiliado.familia_info) {
+                    try {
+                        familiaInfo = typeof afiliado.familia_info === 'object' 
+                            ? afiliado.familia_info 
+                            : JSON.parse(afiliado.familia_info);
+                    } catch(error) {
+                        console.error('Error parseando familia_info:', error);
+                    }
+                }
+                %>
+
+                <% if (familiaInfo && familiaInfo.length > 0) { %>
+                    <tr>
+                        <th colspan="2" style="background-color: #e0e0e0;">ASOCIADOS</th>
+                    </tr>
+                    <% familiaInfo.forEach((familiar, index) => { %>
+                        <tr>
+                            <th colspan="2" style="background-color: #f0f0f0;">Asociado <%= index + 1 %></th>
+                        </tr>
+                        <tr>
+                            <th>Nombre Completo</th>
+                            <td>
+                                <%= familiar.primer_nombre || familiar.primero_nombre || 'N/A' %> 
+                                <%= familiar.segundo_nombre || '' %> 
+                                <%= familiar.primer_apellido || 'N/A' %> 
+                                <%= familiar.segundo_apellido || '' %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Tipo Documento</th>
+                            <td><%= familiar.tipo_documento || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Documento</th>
+                            <td><%= familiar.numero_documento || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Fecha Nacimiento</th>
+                            
+                            <td>
+                                <%= familiar.fecha_nacimiento ? new
+                                    Date(familiar.fecha_nacimiento).toLocaleDateString('es-CO',
+                                    { year: 'numeric' , month: '2-digit' , day: '2-digit' , })
+                                    : 'Fecha no disponible' || 'N/A' %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Género</th>
+                            <td><%= familiar.genero || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Correo Electrónico</th>
+                            <td><%= familiar.correo_electronico || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Correo Alternativo</th>
+                            <td><%= familiar.correo_electronico_alter || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Celular</th>
+                            <td><%= familiar.numero_celular || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Celular Alternativo</th>
+                            <td><%= familiar.numero_cel_alter || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Municipio</th>
+                            <td><%= familiar.municipio_residencia || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Dirección</th>
+                            <td><%= familiar.direccion_residencia || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Tipo Afinidad</th>
+                            <td><%= familiar.tipo_afinidad || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Talla Calzado</th>
+                            <td><%= familiar.talla_calzado || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Talla Camisa</th>
+                            <td><%= familiar.talla_camisa || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Talla Pantalón</th>
+                            <td><%= familiar.talla_pantalon || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Pensión</th>
+                            <td><%= familiar.pension || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>EPS</th>
+                            <td><%= familiar.eps || 'N/A' %></td>
+                        </tr>
+                        <tr>
+                            <th>Preferencias</th>
+                            <td><%= familiar.preferencias || 'N/A' %></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="2">Sin asociados</td>
+                    </tr>
+                <% } %>
+
+                <!-- Separador entre afiliados -->
+                <tr>
+                    <td colspan="2" style="background-color: #000; height: 2px;"></td>
+                </tr>
+            <% }); %>
+        </table>
+    <% } else { %>
+        <p>No hay afiliados registrados</p>
+    <% } %>
+
+
+
+
+
+      
+                <script>
+                    document.getElementById('download-pdf').addEventListener('click', function () {
+                        const content = document.body; // Selecciona el contenido para el PDF
+                        const { jsPDF } = window.jspdf;
+                        // Ocultar botones temporalmente antes de generar el PDF
+                        const buttons = document.querySelectorAll('button');
+                        buttons.forEach(button => (button.style.display = 'none'));
+                        html2canvas(content, {
+                            useCORS: true, // Permitir imágenes de otros dominios
+                            scale: 2, // Aumentar la resolución
+                        }).then((canvas) => {
+                            const imgData = canvas.toDataURL('image/png'); // Convierte el contenido en una imagen
+                            const pdf = new jsPDF('p', 'mm', 'a3'); // Crear PDF en orientación vertical y tamaño A4
+
+                            const pdfWidth = pdf.internal.pageSize.getWidth();
+                            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+                            const canvasWidth = canvas.width;
+                            const canvasHeight = canvas.height;
+
+                            const ratio = canvasWidth / pdfWidth;
+                            const imgHeight = canvasHeight / ratio;
+
+                            let position = 0;
+
+                            while (position < imgHeight) {
+                                // Añadir una nueva página si el contenido excede la altura del PDF
+                                pdf.addImage(imgData, 'PNG', 0, -position, pdfWidth, imgHeight);
+                                position += pdfHeight;
+                                if (position < imgHeight) pdf.addPage(); // Agregar una nueva página si es necesario
+                            }
+
+                            pdf.save('documento_dinamico.pdf'); // Descargar el archivo PDF
+                            // Ocultar los botones permanentemente después de guardar
+                            buttons.forEach(button => (button.style.display = 'none'));
+                        }).catch((error) => {
+                            console.error('Error al generar el PDF:', error);
+                        });
+                    });
+                </script>
+                <script>
+                    function btn_mostrar(documento) {
+                        sessionStorage.setItem('numero_docu_afiliado', documento);
+                        // Redirige al formulario de registro si está autenticado
+                        window.location.href = `/register_otros?numero_docu_afiliado=${documento}`;
+                    }
+                    function actualizarafiliado(numeroDocumento) {
+                        window.location.href = `/actualizar?numero_documento=${numeroDocumento}`;
+                    }
+
+                    function actualizarhijoconyugue(numeroDocumentohc) {
+                        if (!numeroDocumentohc) {
+                            alert("El número de documento no es válido.");
+                            return;
+                        }
+                        window.location.href = `/actualizar_coyugue_hijos?numero_documento_hijo_conyuge=${numeroDocumentohc}`;
+                    }
+                </script>
+                <script>
+                    document.getElementById('download-excel').addEventListener('click', function () {
+                        // Crea un nuevo libro de Excel
+                        const workbook = XLSX.utils.book_new();
+
+                        // Encuentra todas las tablas en la página
+                        const tables = document.querySelectorAll('table');
+
+                        tables.forEach((table, index) => {
+                            // Convierte cada tabla a una hoja de Excel
+                            const worksheet = XLSX.utils.table_to_sheet(table);
+                            const sheetName = `Tabla_${index + 1}`; // Nombre de la hoja basado en el índice
+                            XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+                        });
+
+                        // Genera el archivo Excel
+                        const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
+
+                        // Convierte el archivo a formato Blob y lo descarga
+                        const blob = new Blob([s2ab(excelFile)], { type: 'application/octet-stream' });
+                        saveAs(blob, 'Todas_las_tablas.xlsx');
+                    });
+
+                    // Función auxiliar para convertir datos a formato binario
+                    function s2ab(s) {
+                        const buf = new ArrayBuffer(s.length);
+                        const view = new Uint8Array(buf);
+                        for (let i = 0; i < s.length; i++) {
+                            view[i] = s.charCodeAt(i) & 0xFF;
+                        }
+                        return buf;
+                    }
+                    document.addEventListener("input", (event) => {
+                        if (event.target.tagName === "INPUT") {
+                          event.target.value = event.target.value.toUpperCase();
+                        }
+                      });
+                </script>
+
+</body>
+
+</html>

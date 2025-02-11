@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/css/contenido.css">
+    
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <img src="/resources/imagenes/sindicato2.jpg" alt=""
+        class="imagen_logo">
+        <% if (!login) { %> <!-- Solo muestra el botón de iniciar sesión si no está logueado -->
+            <button class="btn_session">
+                <div class="contendor_logo_session">
+                    <img class="imagen_logo1" src="resources/iconos/user.png" alt="">
+                    <a href="login" class="a-login">Iniciar Sesión</a>
+                </div>
+            </button>
+        <% } else { %> <!-- Si está logueado, muestra el botón de cerrar sesión -->
+            <button class="btn_session">
+                
+                <a href="logout" class="a-login">Cerrar Sesión</a>
+            </button>
+        <% } %>
+    </header>
+    
+    <hr>
+    
+    <div class="contenedor_sesion">
+        <h1><span class="title_color">¡Bienvenido </span> a la plataforma de afiliados del sindicato de la Gobernación del Chocó!</h1>
+    
+        <% if (login) { %> <!-- Si la sesión está iniciada, muestra el nombre del usuario -->
+            <h1>El administrador conectado es: <span class="title_color"><strong><%= name %></strong></span></h1>
+        <% } else { %> <!-- Si no está logueado, muestra un mensaje predeterminado -->
+            <h1><strong><%= name %></strong></h1>
+        <% } %>
+    </div>
+    
+    </div>
+        <div class="container">
+            <div  class="contenedor_botones">
+                
+    <button
+    class="btn_registrar"
+    onclick="miFuncion()"
+    <% if (!login) { %> data-needs-login="true" <% } %>
+>
+    Registrar
+</button>
+
+<script>
+    function miFuncion() {
+        const button = document.querySelector('.btn_registrar');
+        if (button.getAttribute('data-needs-login') === 'true') {
+            // Usa SweetAlert2 para mostrar una alerta con ícono
+            Swal.fire({
+                title: 'Debe iniciar sesión',
+                text: 'Inicie sesión para registrar.',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            });
+        } else {
+            // Redirige al formulario de registro si está autenticado
+            window.location.href = "registro_admin";
+        }
+    }
+</script>
+
+
+<button
+class="btn_registrados"
+onclick="miFuncion2()"
+<% if (!login) { %> data-needs-login="true" <% } %>
+>
+Registrados
+</button>
+<script>
+function miFuncion2() {
+    const button = document.querySelector('.btn_registrados');
+    if (button.getAttribute('data-needs-login') === 'true') {
+        // Usa SweetAlert2 para mostrar una alerta con ícono
+        Swal.fire({
+            title: 'Debe iniciar sesión',
+            text: 'Inicie sesión para ver los registrados.',
+            icon: 'warning',
+            confirmButtonText: 'Aceptar'
+        });
+    } else {
+        // Redirige al formulario de registro si está autenticado
+        window.location.href = "mostrar_afiliados";
+    }
+}
+</script>
+            </div>
+        </div>
+       <!-- <script src="app.js"></script> -->
+        <!-- Agrega SweetAlert2 desde un CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<footer>
+<div class="texto">
+ <ul>
+   <p class="p_texto"> Trabajo realizado por los practicantes de la Tecnología en  Análisis y Desarrollo de Software.</p>
+</ul>
+</div>
+  <div>
+    <ul><h3>Por:</h3>
+        <li>Jhoan Dario Nuñez Murillo </li>
+        <li>Edwar Vanegas Salas</li>
+        <li>Juan David Romaña Cuesta</li>
+        </ul>
+  </div> 
+     
+   <div>
+    <ul>
+        <h3>Dierector de Proyecto:</h3>
+        <li>Jose Eicnner Buenaños Mosquera</li>
+        <li>Profesional Universitario</li>
+        <li>Grupo TIC</li>
+        <li>Gobernación del Chocó</li>
+        
+    </ul>
+   </div>
+   
+     </footer>  
+</body>
+</html>

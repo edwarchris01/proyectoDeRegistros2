@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/resources/css/inicio.css">
+    <link rel="stylesheet" href="/resources/css/diseño_eps.css">
+    <link rel="stylesheet" href="/resources/css/mostrar_afiliados.css">
+    <title>Gestión de Tallas de Zapatos</title>
+</head>
+
+<body>
+    <header>
+        <img src="/resources/imagenes/sindicato2.jpg" alt=""
+        class="imagen_logo">
+    </header>
+    <div class="menu">
+        <button class="btn_inicio"><a href="/">inicio</a></button> 
+      <button class="btn_admi"><a href="/registro_admin">administracion</a> </button>
+      <button class="btn_admi"><a href="/mostrar_afiliados">Afiliados</a> </button>
+      
+      </div>
+    <hr>
+
+    <h2>AGREGAR TALLA DE ZAPATOS</h2>
+    <div class="contenedor_botones">
+        <div class="contenedor_agregar">
+            <form action="/agregar_talla_zapatos" method="POST">
+                <div class="contenedor_input">
+                    <input type="text" class="input" name="talla_zapatos" placeholder="INGRESE UNA TALLA" required>
+                </div>
+                <input type="submit" value="Agregar" class="boton_agregar">
+            </form>
+        </div>
+    </div>
+
+    <div class="contenedor_registro">
+        <h2>REGISTRO DE TALLAS</h2>
+
+        <table id="tallas-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Talla</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% tallasList.forEach(talla=> { %>
+                    <tr>
+                        <td>
+                            <%= talla.idtalla_zapatos %>
+                        </td>
+                        <td id="talla-<%= talla.idtalla_zapatos %>">
+                            <%= talla.talla_zapatos %>
+                        </td>
+                        <td>
+                            <%= talla.estado===1 ? 'ACTIVO' : 'INACTIVO' %>
+                        </td>
+                        <td>
+                            <button class="boton_estado" data-id="<%= talla.idtalla_zapatos %>"
+                                data-estado="<%= talla.estado %>">
+                                <img src="<%= talla.estado === 1 ? '/resources/iconos/delete.png' : '/resources/iconos/habilitar.png' %>"
+                                    alt="<%= talla.estado === 1 ? 'Deshabilitar' : 'Habilitar' %>">
+                            </button>
+                            <button class="boton_color2" title="editar"
+                                onclick="editarTalla('<%= talla.idtalla_zapatos %>')">
+                                <img src="resources/iconos/editar.png" alt="editar">
+                            </button>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <!-- editar  -->
+    <script>
+        function editarTalla(id) {
+            const td = document.getElementById(`talla-${id}`);
+            const valorActual = td.textContent.trim();
+    
+            // Crear un input para la edición
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = valorActual;
+            input.id = `input-talla-${id}`;
+            input.style.width = "100%"; // Para que el input ocupe todo el ancho de la celda
+    
+            // Manejador para cuando el input pierde el foco
+            input.onblur = function () {
+                const nuevoValor = this.value.trim();
+    
+                // Validar si el valor está vacío o no es un número válido
+                if (nuevoValor === "" || isNaN(nuevoValor)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Valor inválido',
+                        text: 'La talla no puede estar vacía y debe ser un número válido.',
+                    });
+                    td.textContent = valorActual; // Restaurar el valor anterior
+                    return;
+                }
+    
+                // Enviar la actualización al servidor
+                fetch('/actualizar-talla', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: id, talla_zapatos: nuevoValor }),
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Error al actualizar la talla en el servidor.');
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        if (data.success) {
+                            td.textContent = nuevoValor; // Actualizamos la celda con el nuevo valor
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Actualización exitosa',
+                                text: 'La talla se actualizó correctamente.',
+                            });
+                        } else {
+                            throw new Error(data.message || 'No se pudo actualizar la talla.');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: error.message || 'Hubo un problema al actualizar la talla.',
+                        });
+                        td.textContent = valorActual; // Restaurar en caso de error
+                    });
+            };
+    
+            // Cuando se presiona "Enter", pierde el foco para guardar los cambios
+            input.onkeydown = function (event) {
+                if (event.key === 'Enter') {
+                    input.blur(); // Ejecuta el onblur al presionar Enter
+                }
+                if (event.key === 'Escape') {
+                    td.textContent = valorActual; // Restaurar el valor si se presiona Escape
+                }
+            };
+    
+            // Reemplazar el contenido de la celda por el input
+            td.textContent = "";
+            td.appendChild(input);
+            input.focus();
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll(".boton_estado").forEach(button => {
+                button.addEventListener("click", function () {
+                    const idTalla = this.getAttribute("data-id");
+                    const estadoActual = parseInt(this.getAttribute("data-estado"), 10);
+
+                    if (!idTalla) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'ID de talla no encontrado.'
+                        });
+                        return;
+                    }
+
+                    const accion = estadoActual === 1 ? 'deshabilitar' : 'habilitar';
+                    const mensajeConfirmacion = estadoActual === 1
+                        ? "¡Esta talla será deshabilitada!"
+                        : "¡Esta talla será habilitada!";
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: mensajeConfirmacion,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: `Sí, ${accion}`,
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/talla_zapatos/toggle/${idTalla}`, { method: 'PUT' })
+                                .then(response => {
+                                    if (!response.ok) throw new Error(`Error: ${response.status}`);
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.mensaje) {
+                                        const nuevoEstado = data.nuevoEstado;
+                                        this.setAttribute("data-estado", nuevoEstado);
+
+                                        const row = this.closest("tr");
+                                        const estadoCell = row.querySelector("td:nth-child(3)");
+                                        estadoCell.textContent = nuevoEstado === 1 ? 'ACTIVO' : 'INACTIVO';
+
+                                        const img = this.querySelector("img");
+                                        img.src = nuevoEstado === 1
+                                            ? "/resources/iconos/delete.png"
+                                            : "/resources/iconos/habilitar.png";
+                                        img.alt = nuevoEstado === 1
+                                            ? "Deshabilitar"
+                                            : "Habilitar";
+
+                                        Swal.fire('Estado cambiado', data.mensaje, 'success');
+                                    } else {
+                                        Swal.fire('Error', 'No se pudo cambiar el estado.', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Error:", error);
+                                    Swal.fire('Error', 'Hubo un problema al cambiar el estado.', 'error');
+                                });
+                        }
+                    });
+                });
+            });
+
+            document.addEventListener("input", (event) => {
+                if (event.target.tagName === "INPUT") {
+                    event.target.value = event.target.value.toUpperCase();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

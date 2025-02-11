@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="resources/css/inicio.css">
+  <link rel="stylesheet" href="resources/css/mostrar_afiliados.css">
+
+  <title>Afiliados</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- ecxel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <header contenedor_img_btn>
+
+    <div class="contenedor_img_btn">
+      <img src="/resources/imagenes/sindicato2.jpg" alt=""
+        class="imagen_logo" />
+
+    </div>
+    <div class="contenedor_btnPDF">
+      <button class="btn_pdf" id="download-pdf"><img class="icono_img" src="/resources/iconos/descargar.png">
+        <p>Descargar PDF</p>
+      </button>
+      <button class="btn_exel" id="download-excel">
+        <img class="icono_img" src="/resources/iconos/descargar.png" alt="Descargar">
+        <p>DESCARGAR EN EXCEL</p>
+      </button>
+    </div>
+  </header>
+ <div class="menu">
+  <button class="btn_inicio"><a href="/">inicio</a></button> 
+<button class="btn_admi"><a href="/registro_admin">administracion</a> </button>
+</div>
+  <div class="container_buscar">
+    <div class="container_buscar_input">
+      <input type="text" id="searchInput" class="buscar_input" placeholder="Ingrese numero de cedula">
+      <button onclick="performSearch()" class="buscar_button"><img src="/resources/iconos/buscar.png" alt=""></button>
+    </div>
+  </div>
+  
+     <!-- Barra de búsqueda -->
+<div  class="contenedor_filtros">
+  <form action="/buscarPorEntidad" method="get" style="display: flex; gap: 10px; align-items: center; margin-top: -10px;">
+    <input 
+      type="text" 
+      id="entidad" 
+      name="entidad" 
+      placeholder="Buscar por entidad..." 
+      required 
+      style="padding: 10px; width: 300px; border: 1px solid #ccc; border-radius: 4px;"
+    >
+    <button 
+      type="submit" 
+      style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;"
+    >
+      Buscar
+    </button>
+    
+  </form>
+ <div class="title_afilaido"> <h1 class="container_titulo">LISTA DE AFILIADOS</h1></div>
+
+   <!-- Formulario para filtrar por edad -->
+   <form action="/filtrar-edad" method="get"  class="contenedor_from_edad">
+    <div class=" contenedor_edad" >
+      <div>
+        <label for="edadMin" ></label>
+        <input type="number" id="edadMin" class="input_edad_mini" name="edadMin" placeholder="Edad mínima" required >
+      </div>
+      <div >
+        <label for="edadMax" ></label>
+        <input type="number" class="input_edad_max" id="edadMax" name="edadMax" placeholder="Edad máxima" required >
+      </div>
+      <button type="submit" class="btn_edad">
+        Filtrar
+      </button>
+    </div> 
+  </form>
+</div>
+
+    
+    <div>
+      <!-- Tabla de afiliados -->
+      <% if (afiliados && afiliados.length > 0) { %>
+        <table id="myTable" border="1">
+          <thead>
+            <tr>
+              <th>NUMERO DE DOCUMENTO</th>
+              <th>PRIMER NOMBRE</th>
+              <th>PRIMER APELLIDO</th>
+              <th>SEGUNDO APELLIDO</th>
+              <th>ENTIDAD</th>
+              <th>DEPENDENCIA</th>
+              <th>ESTADO DEL AFILIADO</th>
+              <th id="thId">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% afiliados.forEach(afiliado => { %>
+              <tr>
+                <td><%= afiliado.numero_documento_afiliado || afiliado.numero_documento %></td>
+                <td><%= afiliado.primer_nombre_afiliado || afiliado.primer_nombre %></td>
+                <td><%= afiliado.primer_apellido_afiliado || afiliado.primer_apellido %></td>
+                <td><%= afiliado.segundo_apellido_afiliado || afiliado.segundo_apellido %></td>
+                <td><%= afiliado.entidad_afiliado || afiliado.entidad %></td>
+                <td><%= afiliado.dependencia_afiliado || afiliado.dependencia %></td>
+                <td><%= afiliado.estado === 1 ? 'ACTIVO' : 'INACTIVO' %></td>
+                
+
+
+                <td class="container_iconos">
+                  <button class="boton_color1" title="ver detalles" onclick="mostrarAfiliado('<%= afiliado.numero_documento %>')">
+                    <img src="resources/iconos/search.png" alt="buscar toda la informacion">
+                  </button>
+                  <button class="boton_color2" title="editar informacion" onclick="actualizar('<%= afiliado.numero_documento %>')">
+                    <img src="resources/iconos/editar.png" alt="editar informacion">
+                  </button>
+    
+                  <button class="boton_estado" title="Deshabilitar" data-id="<%= afiliado.numero_documento %>" data-estado="<%= afiliado.estado %>">
+                    <% if (afiliado.estado === 1) { %>
+                      <img src="resources/iconos/habilitar.png" alt="Deshabilitar afiliado">
+                    <% } else { %>
+                      <img src="resources/iconos/delete.png" title="Habilitar" alt="Habilitar afiliado">
+                    <% } %>
+                  </button>
+
+              <script>
+                function performSearch() {
+                  const cedula = document.getElementById("searchInput").value.trim();
+                  if (cedula.length > 0) {
+                    window.location.href = `/buscar_afiliados?cedula=${cedula}`;
+                  } else {
+                    alert("Por favor, ingrese un número de cédula.");
+                  }
+                }
+                function mostrarAfiliado(cedula) {
+                  // Redirigir al nuevo índice con el número de documento como parámetro
+                  window.location.href = `/afiliado/detalles?cedula=${cedula}`;
+                  console.log("Cédula recibida:", cedula);
+                }
+
+                function actualizar(numeroDocumento) {
+                  window.location.href = `/actualizar?numero_documento=${numeroDocumento}`;
+                }
+
+                document.querySelectorAll(".boton_estado").forEach(button => {
+                  button.addEventListener("click", function () {
+                    const idAfiliado = this.getAttribute("data-id");
+                    const estadoActual = parseInt(this.getAttribute("data-estado"), 10);
+
+                    if (!idAfiliado) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'ID de afiliado no encontrado.'
+                      });
+                      return;
+                    }
+
+                    // Determina la acción basada en el estado actual
+                    const accion = estadoActual === 1 ? 'deshabilitar' : 'habilitar';
+                    const mensajeConfirmacion = estadoActual === 1
+                      ? "¡Este afiliado será deshabilitado!"
+                      : "¡Este afiliado será habilitado!";
+
+                    Swal.fire({
+                      title: '¿Estás seguro?',
+                      text: mensajeConfirmacion,
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: `Sí, ${accion}`,
+                      cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        fetch(`/afiliados/toggle/${idAfiliado}`, { method: 'PUT' })
+                          .then(response => {
+                            if (!response.ok) throw new Error(`Error: ${response.status}`);
+                            return response.json();
+                          })
+                          .then(data => {
+                            if (data.mensaje) {
+                              // Cambia el estado visualmente en la tabla
+                              const nuevoEstado = data.nuevoEstado;
+                              this.setAttribute("data-estado", nuevoEstado);
+
+                              // Cambia el ícono del botón dinámicamente
+                              const img = this.querySelector("img");
+                              if (nuevoEstado === 1) {
+                                img.src = "resources/iconos/disable.png";
+                                img.alt = "Deshabilitar afiliado";
+                              } else {
+                                img.src = "resources/iconos/enable.png";
+                                img.alt = "Habilitar afiliado";
+                              }
+
+                              // Mensaje de confirmación
+                              Swal.fire(
+                                accion.charAt(0).toUpperCase() + accion.slice(1),
+                                data.mensaje,
+                                'success'
+                              );
+
+
+                              // Recargar la página después de un éxito
+                              location.reload();  // Recarga la página para ver los cambios
+                            } else {
+                              Swal.fire(
+                                'Error',
+                                'No se pudo cambiar el estado del afiliado.',
+                                'error'
+                              );
+                            }
+                          })
+
+                          .catch(error => {
+                            console.error("Error:", error);
+                            Swal.fire(
+                              'Error',
+                              'Hubo un problema al intentar cambiar el estado del afiliado.',
+                              'error'
+                            );
+                          });
+                      }
+                    });
+                  });
+                });
+              </script>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+    <% } else { %>
+      <p>
+        <%= typeof error !== 'undefined' ? error : "No hay registros disponibles." %>
+      </p>
+      
+      <% } %>
+        <script>
+          document.getElementById('download-pdf').addEventListener('click', function () {
+            const content = document.body; // Selecciona el contenido para el PDF
+            const { jsPDF } = window.jspdf;
+            // Ocultar botones temporalmente antes de generar el PDF
+            const buttons = document.querySelectorAll('button');
+            const thToHide = document.querySelector('th#thId');
+            const inpu = document.querySelector('input#searchInput');
+
+            buttons.forEach(button => (button.style.display = 'none'));
+            thToHide.style.display = 'none';
+            inpu.style.display = 'none';
+            html2canvas(content, {
+              useCORS: true, // Permitir imágenes de otros dominios
+              scale: 2, // Aumentar la resolución
+            }).then((canvas) => {
+              const imgData = canvas.toDataURL('image/png'); // Convierte el contenido en una imagen
+              const pdf = new jsPDF('p', 'mm', 'a2'); // Crear PDF en orientación vertical y tamaño A2
+
+              const pdfWidth = pdf.internal.pageSize.getWidth();
+              const pdfHeight = pdf.internal.pageSize.getHeight();
+
+              const canvasWidth = canvas.width;
+              const canvasHeight = canvas.height;
+
+              const imgWidth = pdfWidth; // Ajustar al ancho del PDF
+              const imgHeight = (canvasHeight * imgWidth) / canvasWidth; // Mantener proporción
+
+              // Centrar contenido
+              const xOffset = (pdfWidth - imgWidth) / 10;
+              const yOffset = (pdfHeight - imgHeight) / 10;
+
+              let position = 0;
+
+              while (position < imgHeight) {
+                pdf.addImage(imgData, 'PNG', xOffset, yOffset - position, imgWidth, imgHeight);
+                position += pdfHeight;
+                if (position < imgHeight) pdf.addPage();
+              }
+
+
+              pdf.save('documento_dinamico.pdf'); // Descargar el archivo PDF
+              // Ocultar los botones permanentemente después de guardar
+              buttons.forEach(button => (button.style.display = 'inline-block'));
+              thToHide.style.display = '';
+              inpu.style.display = '';
+
+
+            }).catch((error) => {
+              console.error('Error al generar el PDF:', error);
+            });
+          });
+        </script>
+        <script>document.getElementById('download-excel').addEventListener('click', () => {
+          const table = document.querySelector('#myTable');
+      
+          if (!table) {
+              alert("No se encontró la tabla.");
+              return;
+          }
+      
+          const data = [];
+          const rows = table.querySelectorAll('tr');
+      
+          rows.forEach((row, rowIndex) => {
+              const rowData = [];
+              const cells = row.querySelectorAll('th, td');
+      
+              cells.forEach((cell, cellIndex) => {
+                  // Omitir columna de ACCIONES
+                  if (cell.innerText.trim().toUpperCase() !== 'ACCIONES') {
+                      rowData.push(cell.innerText.trim());
+                  }
+              });
+      
+              if (rowData.length > 0) {
+                  data.push(rowData);
+              }
+          });
+      
+          // Validar que existan datos
+          if (data.length === 0) {
+              alert("No hay datos para descargar");
+              return;
+          }
+      
+          try {
+              // Crear hoja de Excel
+              const worksheet = XLSX.utils.aoa_to_sheet(data);
+              const workbook = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
+      
+              // Generar y descargar archivo
+              XLSX.writeFile(workbook, 'datos.xlsx');
+          } catch (error) {
+              console.error("Error al generar Excel:", error);
+              alert("Ocurrió un error al descargar el archivo");
+          }
+      });
+      document.addEventListener("input", (event) => {
+        if (event.target.tagName === "INPUT") {
+          event.target.value = event.target.value.toUpperCase();
+        }
+      });
+      </script>
+        
+
+
+
+        <!-- Añadir SweetAlert2 -->
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        </body>
+
+</html>

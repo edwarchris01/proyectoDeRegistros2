@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>actualizar_hijos_coyugue</title>
+    <link rel="stylesheet" href="/resources/css/registros.css">
+    <link rel="stylesheet" href="/resources/css/inicio.css">
+    <link rel="stylesheet" href="/resources/css/mostrar_afiliados.css">
+</head>
+
+<body>
+    <header>
+        <img src="/resources/imagenes/sindicato2.jpg" alt=""
+        class="imagen_logo">
+    </header>
+    <div class="menu">
+        <button class="btn_inicio"><a href="/">inicio</a></button>
+        <button class="btn_admi" id="regresar">
+            <p class="parrafo">Detalles afiliados</p>
+        </button>
+        <button class="btn_admi"><a href="/registro_admin">administracion</a> </button>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="container_contenidoF">
+            <h2 class="title_formulario">Editar Cónyuges e Hijos</h2>
+            <form id="form-actualizar-hijo" action="/actualizar_coyugue_hijos" method="POST">
+                <input type="hidden" name="tipo" value="hijo-conyuge">
+                <div id="lista-hijos-conyuges">
+                    <div class="contenedor_1_2">
+                        <div class="contenido_F">
+                            <!-- Información básica del cónyuge o hijo -->
+                            <label for="tipo_documento">Tipo de Documento:</label>
+                            <input type="text" id="tipo_documento" name="tipo_documento_hijo_conyuge"
+                                value="<%= afiliado.tipo_documento_hijo_conyuge %>" readonly>
+
+                            <label for="numero_documento">Número Documento:</label>
+                            <input type="number" id="numero_documento" name="numero_documento_hijo_conyuge"
+                                value="<%= afiliado.numero_documento_hijo_conyuge %>" readonly>
+
+                            <label for="primer_nombre">Primer Nombre:</label>
+                            <input type="text" id="primer_nombre" name="primer_nombre_hijo_conyuge"
+                                value="<%= afiliado.primer_nombre_hijo_conyuge %>" required>
+
+                            <label for="segundo_nombre">Segundo Nombre:</label>
+                            <input type="text" id="segundo_nombre" name="segundo_nombre_hijo_conyuge"
+                                value="<%= afiliado.segundo_nombre_hijo_conyuge %>">
+
+                            <label for="primer_apellido">Primer Apellido:</label>
+                            <input type="text" id="primer_apellido" name="primer_apellido_hijo_conyuge"
+                                value="<%= afiliado.primer_apellido_hijo_conyuge %>" required>
+
+                            <label for="segundo_apellido">Segundo Apellido:</label>
+                            <input type="text" id="segundo_apellido" name="segundo_apellido_hijo_conyuge"
+                                value="<%= afiliado.segundo_apellido_hijo_conyuge %>">
+
+                            <label for="generoafi">Género:</label>
+                            <select id="generoafi" name="genero_hijo_conyuge">
+                                <% if (afiliado.genero_hijo_conyuge) { %>
+                                    <option value="<%= afiliado.genero_hijo_conyuge %>" selected>
+                                        <%= afiliado.genero_hijo_conyuge %>
+                                    </option>
+                                    <% } %>
+                                        <!-- Las opciones de género se agregarán aquí -->
+                            </select>
+
+
+
+                            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento_hijo_conyuge" value="<%= afiliado.fecha_nacimiento_hijo_conyuge 
+                            ? new Date(afiliado.fecha_nacimiento_hijo_conyuge).toISOString().split('T')[0] 
+                            : '' %>">
+                            <br>
+                            <label for="edad_nacimiento">Edad:</label>
+                            <input type="number" id="edad_nacimiento" name="edad_hijo_conyuge"
+                                value="<%= afiliado.edad_hijo_conyuge %>" readonly>
+
+                            <label for="correo_electronico">Correo Electrónico:</label>
+                            <input type="email" id="correo_electronico" name="correo_electronico_hijo_conyuge"
+                                value="<%= afiliado.correo_electronico_hijo_conyuge %>">
+
+                            <label for="correo_electronico_alternativo">Correo Electrónico Alternativo:</label>
+                            <input type="email" id="correo_electronico_alternativo"
+                                name="correo_electronico_alternativo_hijo_conyuge"
+                                value="<%= afiliado.correo_electronico_alternativo_hijo_conyuge %>">
+
+                            <label for="numero_celular">Número de Celular:</label>
+                            <input type="text" id="numero_celular" name="numero_celular_hijo_conyuge"
+                                value="<%= afiliado.numero_celular_hijo_conyuge %>">
+                        </div>
+
+                        <div class="contenido2">
+                            <label for="numero_cel_alternativo">Número de Celular Alternativo:</label>
+                            <input type="text" id="numero_cel_alternativo"
+                                name="numero_celular_alternativo_hijo_conyuge"
+                                value="<%= afiliado.numero_celular_alternativo_hijo_conyuge %>">
+
+                            <label for="municipio_residencia">Municipio de Residencia:</label>
+                            <input type="text" id="municipio_residencia" name="municipio_residencia_hijo_conyuge"
+                                value="<%= afiliado.municipio_residencia_hijo_conyuge %>">
+
+                            <label for="direccion_residencia">Dirección de Residencia:</label>
+                            <input type="text" id="direccion_residencia" name="direccion_residencia_hijo_conyuge"
+                                value="<%= afiliado.direccion_residencia_hijo_conyuge %>">
+
+                            <label for="tipo_afinidad">Tipo de Afinidad:</label>
+                            <input type="text" id="tipo_afinidad" name="tipo_afinidad_hijo_conyuge"
+                                value="<%= afiliado.tipo_afinidad_hijo_conyuge %>">
+
+                            <label for="talla_calzado">Talla de Calzado:</label>
+                            <select id="talla_calzado" name="talla_calzado_hijo_conyuge">
+                                <% if (afiliado.talla_calzado_hijo_conyuge) { %>
+                                    <option value="<%= afiliado.talla_calzado_hijo_conyuge %>" selected>
+                                        <%= afiliado.talla_calzado_hijo_conyuge %>
+                                    </option>
+                                    <% } else { %>
+                                        <% } %>
+                                            <!-- Las opciones de género se agregarán aquí -->
+                            </select>
+
+                            <label for="talla_camisa">Talla de Camisa:</label>
+                            <select id="mi_ComboBox_talla_camisa" name="talla_camisa_hijo_conyuge">
+                                <% if (afiliado.talla_camisa_hijo_conyuge) { %>
+                                    <option value="<%= afiliado.talla_camisa_hijo_conyuge %>" selected>
+                                        <%= afiliado.talla_camisa_hijo_conyuge %>
+                                    </option>
+                                    <% } else { %>
+                                        <% } %>
+                                            <!-- Las opciones de género se agregarán aquí -->
+                            </select>
+
+                            <label for="talla_pantalon">Talla de Pantalón:</label>
+                            <select id="talla_pantalon" name="talla_pantalon_hijo_conyuge">
+                                <% if (afiliado.talla_pantalon_hijo_conyuge) { %>
+                                    <option value="<%= afiliado.talla_pantalon_hijo_conyuge %>" selected>
+                                        <%= afiliado.talla_pantalon_hijo_conyuge %>
+                                    </option>
+                                    <% } else { %>
+                                        <% } %>
+                                            <!-- Las opciones de género se agregarán aquí -->
+                            </select>
+
+                            <label for="pension">Pensión:</label>
+                            <select id="mi_ComboBox_pensiones" name="pension_hijo_conyuge">
+                                <% if (afiliado.pension_hijo_conyuge) { %>
+                                    <option value="<%= afiliado.pension_hijo_conyuge %>" selected>
+                                        <%= afiliado.pension_hijo_conyuge %>
+                                    </option>
+                                    <% } %>
+                                        <!-- Las opciones de pensión se agregarán aquí -->
+                            </select>
+
+
+                            <label for="eps">EPS:</label>
+                            <select id="mi_ComboBox_eps" name="eps_hijo_conyuge">
+                                <% if (afiliado.eps_hijo_conyuge) { %>
+                                    <option value="<%= afiliado.eps_hijo_conyuge %>" selected>
+                                        <%= afiliado.eps_hijo_conyuge %>
+                                    </option>
+                                    <% } else { %>
+                                        <% } %>
+                                            <!-- Las opciones de género se agregarán aquí -->
+                            </select>
+
+                            <label for="preferencias">Preferencias:</label>
+                            <input type="text" id="preferencias" name="preferencias_hijo_conyuge"
+                                value="<%= afiliado.preferencias_hijo_conyuge %>">
+
+                            <label for="numero_docu_bene">Número de Documento Beneficiario:</label>
+                            <input type="number" id="numero_docu_bene" name="numero_documento_afiliado_hijo_conyuge"
+                                value="<%= afiliado.numero_documento_afiliado_hijo_conyuge %>" readonly>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="contenedor_btnActualizar"><button type="submit" id="actualizar_afiliadohijo"
+                            class="btn_actualizar_conyugue">Actualizar</button></div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('form-actualizar-hijo').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Deseas actualizar los datos del afiliado?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, actualizar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const formData = new FormData(this);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        data[key] = value;
+                    });
+
+                    // Convert the data to JSON and send to the server
+                    fetch('/actualizar_coyugue_hijos', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data), // Enviar los datos como JSON
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                Swal.fire({
+                                    title: '¡Éxito!',
+                                    text: data.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK',
+                                    confirmButtonColor: '#3085d6',
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un error al actualizar los datos del hijo o cónyuge.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Entendido',
+                                    confirmButtonColor: '#d33',
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Hubo un error al actualizar los datos.',
+                                icon: 'error',
+                                confirmButtonText: 'Entendido',
+                                confirmButtonColor: '#d33',
+                            });
+                        });
+                } else {
+                    Swal.fire({
+                        title: 'Cancelado',
+                        text: 'La acción ha sido cancelada.',
+                        icon: 'info',
+                        confirmButtonText: 'Entendido',
+                        confirmButtonColor: '#3085d6',
+                    });
+                }
+            });
+        });
+
+
+
+        document.addEventListener("input", (event) => {
+            if (event.target.tagName === "INPUT") {
+                event.target.value = event.target.value.toUpperCase();
+            }
+        });
+    </script>
+    <script>
+        // Cargar géneros
+        fetch('http://localhost:3000/genero')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                const selectGenero = document.getElementById('generoafi');
+                selectGenero.innerHTML = ''; // Limpiar opciones
+
+                data.forEach(genero => {
+                    const option = document.createElement('option');
+                    option.value = genero.id || genero.tipo_genero; // Verifica que `id` o `tipo_genero` sean correctos
+                    option.textContent = genero.tipo_genero;
+                    selectGenero.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar los géneros:', error));
+
+        // Cargar talla de camisa
+        fetch('http://localhost:3000/talla_camisa')
+            .then(response => response.json())
+            .then(data => {
+
+                const select = document.getElementById('mi_ComboBox_talla_camisa');
+                select.innerHTML = ''; // Limpiar opciones
+
+                data.forEach(talla => {
+                    const option = document.createElement('option');
+                    option.value = talla.id || talla.talla; // Verifica que `id` o `tipotalla` sean correctos
+                    option.textContent = talla.talla;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar talla camisa:', error));
+
+
+        // Cargar talla de pantalón
+        fetch('http://localhost:3000/talla_pantalon')
+            .then(response => response.json())
+            .then(data => {
+
+                const select = document.getElementById('talla_pantalon');
+                select.innerHTML = ''; // Limpiar opciones
+
+                data.forEach(talla => {
+                    const option = document.createElement('option');
+                    option.value = talla.id || talla.talla_pantalon; // Suponiendo que hay un ID para la talla
+                    option.textContent = talla.talla_pantalon;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar talla pantalón:', error));
+
+        // Cargar talla de zapatos
+        fetch('http://localhost:3000/talla_zapatos')
+            .then(response => response.json())
+            .then(data => {
+
+                const select = document.getElementById('talla_calzado');
+                select.innerHTML = ''; // Limpiar opciones
+
+                data.forEach(talla => {
+                    const option = document.createElement('option');
+                    option.value = talla.id || talla.talla_zapatos; // Suponiendo que hay un ID para la talla
+                    option.textContent = talla.talla_zapatos;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar talla zapatos:', error));
+
+        // Cargar EPS
+        fetch('http://localhost:3000/eps')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById('mi_ComboBox_eps');
+                select.innerHTML = ''; // Limpiar opciones
+
+                data.forEach(eps => {
+                    const option = document.createElement('option');
+                    option.value = eps.id || eps.epscol; // Suponiendo que hay un ID para la EPS
+                    option.textContent = eps.epscol;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar las EPS:', error));
+
+        // Cargar pensiones
+        fetch('http://localhost:3000/pensiones')
+            .then(response => response.json())
+            .then(data => {
+
+                const selepencion = document.getElementById('mi_ComboBox_pensiones');
+                selepencion.innerHTML = ''; // Limpiar opciones
+
+                data.forEach(pension => {
+                    const option = document.createElement('option');
+                    option.value = pension.id || pension.entidad; // Suponiendo que hay un ID para la pensión
+                    option.textContent = pension.entidad;
+                    selepencion.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar las pensiones:', error));
+
+        // Obtener la cédula almacenada en localStorage
+        const cedulaGuardada = localStorage.getItem('cedula');
+
+        // Asignar la lógica de redirección al botón "Regresar"
+        document.getElementById('regresar').addEventListener('click', () => {
+            if (cedulaGuardada) {
+                // Redirigir a la ruta de detalles con la cédula almacenada
+                window.location.href = `/afiliado/detalles?cedula=${cedulaGuardada}`;
+            } else {
+                alert('No se encontró la cédula almacenada.');
+            }
+        });
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+            const edadInput = document.getElementById('edad_nacimiento');
+    
+            // Evento cuando cambia la fecha de nacimiento
+            fechaNacimientoInput.addEventListener('input', function () {
+                calcularEdad(fechaNacimientoInput.value);
+            });
+    
+            function calcularEdad(fechaNacimiento) {
+                if (fechaNacimiento) {
+                    const hoy = new Date();
+                    const fechaNac = new Date(fechaNacimiento);
+                    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+                    const mes = hoy.getMonth() - fechaNac.getMonth();
+    
+                    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+                        edad--;
+                    }
+                    // Si la edad es negativa, poner 0
+                    edadInput.value = edad > 0 ? edad : 0;
+                }
+            }
+            // Calcular edad al cargar la página si hay fecha de nacimiento
+            if (fechaNacimientoInput.value) {
+                calcularEdad(fechaNacimientoInput.value);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

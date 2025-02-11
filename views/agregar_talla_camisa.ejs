@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/resources/css/inicio.css">
+  <link rel="stylesheet" href="/resources/css/diseño_eps.css">
+  <link rel="stylesheet" href="/resources/css/mostrar_afiliados.css">
+  <title>Gestión de la de la camisa</title>
+</head>
+
+<body>
+  <header>
+    <img src="/resources/imagenes/sindicato2.jpg" alt=""
+      class="imagen_logo">
+  </header>
+  <div class="menu">
+    <button class="btn_inicio"><a href="/">inicio</a></button> 
+  <button class="btn_admi"><a href="/registro_admin">administracion</a> </button>
+  <button class="btn_admi"><a href="/mostrar_afiliados">Afiliados</a> </button>
+  
+  </div>
+  <hr>
+
+  <h2>AGREGAR TALLA DE LA CAMISA</h2>
+  <div class="contenedor_botones">
+    <div class="contenedor_agregar">
+
+      <form action="/agregar_talla_camisa" method="POST"> <!-- Se agrega el formulario -->
+        <div class="contenedor_input">
+          <input type="text" class="input" name="nombre" placeholder="INGRESE UNA TALLA DE CAMISA" required>
+          <!-- Se agrega el name 'nombre' -->
+        </div>
+        <input type="submit" value="Agregar" class="boton_agregar">
+
+
+      </form>
+    </div>
+  </div>
+
+  <div class="contenedor_registro">
+    <h2>REGISTRO DE PENSION</h2>
+
+    <table id="tallacamisa-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Talla de la camisaa</th>
+          <th>Estado</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aquí se agregarán las filas dinámicamente -->
+        <% tallacamisaList.forEach(tallacamisa=> { %>
+          <tr>
+            <td>
+              <%= tallacamisa.idtalla_camisa %>
+            </td>
+            <td id="tallacamisa-<%= tallacamisa.idtalla_camisa %>">
+              <%= tallacamisa.talla %>
+            </td>
+            <td>
+              <%= tallacamisa.estado===1 ? 'ACTIVO' : 'INACTIVO' %>
+            </td>
+            <td>
+              <button class="boton_estado" data-id="<%= tallacamisa.idtalla_camisa %>"
+                data-estado="<%= tallacamisa.estado %>">
+                <img
+                  src="<%= tallacamisa.estado === 1 ? 'resources/iconos/delete.png' : 'resources/iconos/habilitar.png' %>"
+                  alt="<%= tallacamisa.estado === 1 ? 'Deshabilitar' : 'Habilitar' %>">
+              </button>
+              <button class="boton_color2" title="editar" onclick="editarTallaCamisa('<%= tallacamisa.idtalla_camisa %>')">
+                <img src="resources/iconos/editar.png" alt="editar">
+            </button>
+            
+            </td>
+          </tr>
+          <% }); %>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function editarTallaCamisa(id) {
+        const td = document.getElementById(`tallacamisa-${id}`);
+        const valorActual = td.textContent.trim();
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = valorActual;
+        input.id = `input-tallacamisa-${id}`;
+        input.style.width = "100%";
+
+        input.onblur = function () {
+            const nuevoValor = this.value.trim();
+            if (nuevoValor === "") {
+                Swal.fire({ icon: 'error', title: 'Valor inválido', text: 'La talla de camisa no puede estar vacía.' });
+                td.textContent = valorActual;
+                return;
+            }
+
+            fetch('/actualizar-talla-camisa', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id, talla: nuevoValor }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        td.textContent = nuevoValor;
+                        Swal.fire({ icon: 'success', title: 'Actualización exitosa', text: 'La talla de camisa se actualizó correctamente.' });
+                    } else {
+                        throw new Error(data.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+                    td.textContent = valorActual;
+                });
+        };
+
+        input.onkeydown = function (event) {
+            if (event.key === 'Enter') input.blur();
+            if (event.key === 'Escape') td.textContent = valorActual;
+        };
+
+        td.textContent = "";
+        td.appendChild(input);
+        input.focus();
+    }
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Para las notificaciones de SweetAlert -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Función para manejar los botones de cambio de estado de la EPS
+      document.querySelectorAll(".boton_estado").forEach(button => {
+        button.addEventListener("click", function () {
+          const idtalla_camisa = this.getAttribute("data-id");
+          const estadoActual = parseInt(this.getAttribute("data-estado"), 10);
+
+          if (!idtalla_camisa) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'ID de EPS no encontrado.'
+            });
+            return;
+          }
+
+          const accion = estadoActual === 1 ? 'deshabilitar' : 'habilitar';
+          const mensajeConfirmacion = estadoActual === 1
+            ? "¡Esta PENSION será deshabilitada!"
+            : "¡Esta PENSION será habilitada!";
+
+          // Confirmación con SweetAlert2
+          Swal.fire({
+            title: '¿Estás seguro?',
+            text: mensajeConfirmacion,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: `Sí, ${accion}`,
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Llamada al servidor para cambiar el estado
+              fetch(`/talla_camisa/toggle/${idtalla_camisa}`, { method: 'PUT' })
+                .then(response => {
+                  if (!response.ok) throw new Error(`Error: ${response.status}`);
+                  return response.json();
+                })
+                .then(data => {
+                  if (data.mensaje) {
+                    const nuevoEstado = data.nuevoEstado;
+                    this.setAttribute("data-estado", nuevoEstado);
+
+                    // Localiza la fila actual y actualiza el texto de estado
+                    const row = this.closest("tr");
+                    const estadoCell = row.querySelector("td:nth-child(3)");
+                    estadoCell.textContent = nuevoEstado === 1 ? 'ACTIVO' : 'INACTIVO';
+
+                    // Asegura la actualización del ícono
+                    const img = this.querySelector("img");
+                    if (img) {
+                      img.src = nuevoEstado === 1
+                        ? "/resources/iconos/delete.png"
+                        : "/resources/iconos/habilitar.png";
+                      img.alt = nuevoEstado === 1
+                        ? "Deshabilitar EPS"
+                        : "Habilitar EPS";
+                    } else {
+                      console.warn("La imagen no se encontró dentro del botón.");
+                    }
+
+                    // Mensaje de éxito
+                    Swal.fire(
+                      accion.charAt(0).toUpperCase() + accion.slice(1),
+                      data.mensaje,
+                      'success'
+                    );
+                  } else {
+                    Swal.fire(
+                      'Error',
+                      'No se pudo cambiar el estado de la EPS.',
+                      'error'
+                    );
+                  }
+                })
+                .catch(error => {
+                  console.error("Error:", error);
+                  Swal.fire(
+                    'Error',
+                    'Hubo un problema al intentar cambiar el estado de la EPS.',
+                    'error'
+                  );
+                });
+            }
+          });
+        });
+      });
+    });
+    document.addEventListener("input", (event) => {
+      if (event.target.tagName === "INPUT") {
+        event.target.value = event.target.value.toUpperCase();
+      }
+    });
+  </script>
+
+
+
+
+
+</body>
+
+</html>

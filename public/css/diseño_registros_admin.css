@@ -1,0 +1,59 @@
+body {
+    
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(rgba(247, 247, 247, 0.421),rgba(255, 255, 255,  0.421)), url(/resources/imagenes/sindicato3.png);
+    background-size: 200% 200%;
+    background-position: 45% 45%;
+
+   
+}
+.contenedor_botones{
+display: flex;
+flex-wrap: wrap;
+}
+p{
+    color: white;
+    margin-top: 2%;
+}
+/* .agregar{
+background-color: rgb(3, 252, 16);
+width: 300px;
+height: 90px;
+margin: 2%;
+cursor: pointer;
+border-radius: 5px;
+box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.333); 
+} */
+.btn_agregar:hover{
+    background-color: rgb(159, 0, 0);
+    transform: scale(1.1); /* Aumenta el tamaño un 20% */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade una sombra para mayor efecto */
+}
+.contendor{
+display: flex;
+justify-content: center;
+}
+.btn_agregar{
+background-color: rgb(29, 5, 240);
+width: 300px;
+height: 90px;
+font-size: 22px;
+border: none;
+margin: 2%;
+cursor: pointer;
+border-radius: 5px;
+box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.333); 
+}
+.icono_afiliado{ 
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+}
+.contenedor_icono{
+background-color: rgb(255, 255, 255);
+width: 50px;
+height: 50px;
+border-radius: 50%;
+margin-left: 40%;
+}
+

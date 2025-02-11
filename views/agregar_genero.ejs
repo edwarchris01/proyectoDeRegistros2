@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/resources/css/inicio.css">
+    <link rel="stylesheet" href="/resources/css/diseño_eps.css">
+    <link rel="stylesheet" href="/resources/css/mostrar_afiliados.css">
+    <title>Gestión de Género</title>
+</head>
+
+<body>
+    <header>
+        <img src="/resources/imagenes/sindicato2.jpg" alt=""
+        class="imagen_logo">
+     </header>
+    <div class="menu">
+        <button class="btn_inicio"><a href="/">inicio</a></button> 
+      <button class="btn_admi"><a href="/registro_admin">administracion</a> </button>
+      <button class="btn_admi"><a href="/mostrar_afiliados">Afiliados</a> </button>
+      
+      </div>
+    <hr>
+
+    <h2>AGREGAR GÉNERO</h2>
+    <div class="contenedor_botones">
+        <div class="contenedor_agregar">
+            <form action="/agregar_genero" method="POST">
+                <div class="contenedor_input">
+                    <input type="text" class="input" name="tipo_genero" placeholder="INGRESE UN TIPO DE GÉNERO"
+                        required>
+                </div>
+                <input type="submit" value="Agregar" class="boton_agregar">
+            </form>
+        </div>
+    </div>
+
+    <div class="contenedor_registro">
+        <h2>REGISTRO DE GÉNEROS</h2>
+
+        <table id="genero-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo de Género</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% generosList.forEach(genero=> { %>
+                    <tr>
+                        <td>
+                            <%= genero.id_genero %>
+                        </td>
+                        <td id="genero-<%= genero.id_genero %>">
+                            <%= genero.tipo_genero %>
+                        </td>
+                        <td>
+                            <%= genero.estado===1 ? 'ACTIVO' : 'INACTIVO' %>
+                        </td>
+                        <td>
+                            <button class="boton_estado" data-id="<%= genero.id_genero %>"
+                                data-estado="<%= genero.estado %>">
+                                <img src="<%= genero.estado === 1 ? '/resources/iconos/delete.png' : '/resources/iconos/habilitar.png' %>"
+                                    alt="<%= genero.estado === 1 ? 'Deshabilitar' : 'Habilitar' %>">
+                            </button>
+                            <button class="boton_color2" title="editar"
+                                onclick="editarGenero('<%= genero.id_genero %>')">
+                                <img src="resources/iconos/editar.png" alt="editar">
+                            </button>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function editarGenero(id) {
+            const td = document.getElementById(`genero-${id}`);
+            const valorActual = td.textContent.trim();
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = valorActual;
+            input.id = `input-genero-${id}`;
+            input.style.width = "100%";
+
+            input.onblur = function () {
+                const nuevoValor = this.value.trim();
+
+                if (nuevoValor === "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Valor inválido',
+                        text: 'El tipo de género no puede estar vacío.'
+                    });
+                    td.textContent = valorActual;
+                    return;
+                }
+
+                fetch('/actualizar-genero', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: id, tipo_genero: nuevoValor }),
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Error al actualizar el genero en el servidor.');
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        if (data.success) {
+                            td.textContent = nuevoValor;
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Actualización exitosa',
+                                text: 'El género se actualizó correctamente.'
+                            });
+                        } else {
+                            throw new Error(data.message);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: error.message || 'Hubo un problema al actualizar el genero.',
+                        });
+                        td.textContent = valorActual;
+                    });
+            };
+
+            input.onkeydown = function (event) {
+                if (event.key === 'Enter')
+                    input.blur();
+            }
+            if (event.key === 'Escape') {
+                td.textContent = valorActual;
+            };
+
+
+            td.textContent = "";
+            td.appendChild(input);
+            input.focus();
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll(".boton_estado").forEach(button => {
+                button.addEventListener("click", function () {
+                    const idGenero = this.getAttribute("data-id");
+                    const estadoActual = parseInt(this.getAttribute("data-estado"), 10);
+
+                    if (!idGenero) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'ID de género no encontrado.'
+                        });
+                        return;
+                    }
+
+                    const accion = estadoActual === 1 ? 'deshabilitar' : 'habilitar';
+                    const mensajeConfirmacion = estadoActual === 1
+                        ? "¡Este género será deshabilitado!"
+                        : "¡Este género será habilitado!";
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: mensajeConfirmacion,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: `Sí, ${accion}`,
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/tipo_genero/toggle/${idGenero}`, { method: 'PUT' })
+                                .then(response => {
+                                    if (!response.ok) throw new Error(`Error: ${response.status}`);
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.mensaje) {
+                                        const nuevoEstado = data.nuevoEstado;
+                                        this.setAttribute("data-estado", nuevoEstado);
+
+                                        const row = this.closest("tr");
+                                        const estadoCell = row.querySelector("td:nth-child(3)");
+                                        estadoCell.textContent = nuevoEstado === 1 ? 'ACTIVO' : 'INACTIVO';
+
+                                        const img = this.querySelector("img");
+                                        img.src = nuevoEstado === 1
+                                            ? "/resources/iconos/delete.png"
+                                            : "/resources/iconos/habilitar.png";
+                                        img.alt = nuevoEstado === 1
+                                            ? "Deshabilitar"
+                                            : "Habilitar";
+
+                                        Swal.fire('Estado cambiado', data.mensaje, 'success');
+                                    } else {
+                                        Swal.fire('Error', 'No se pudo cambiar el estado.', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Error:", error);
+                                    Swal.fire('Error', 'Hubo un problema al cambiar el estado.', 'error');
+                                });
+                        }
+                    });
+                });
+            });
+
+            document.addEventListener("input", (event) => {
+                if (event.target.tagName === "INPUT") {
+                    event.target.value = event.target.value.toUpperCase();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

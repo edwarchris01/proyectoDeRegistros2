@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="resources/css/registros.css" />
+  <link rel="stylesheet" href="resources/css/inicio.css">
+  <link rel="stylesheet" href="resources/css/mostrar_afiliados.css">
+
+<body>
+  <header><img src="/resources/imagenes/sindicato2.jpg" alt=""
+    class="imagen_logo"></header>
+  <hr>
+  <div class="menu">
+    <button class="btn_inicio"><a href="/">Inicio</a></button>
+    <button class="btn_admi" id="regresar">
+      <p class="parrafo">Detalles afiliados</p>
+    </button>
+    <button class="btn_admi"><a href="/registro_admin">Administracion</a></button>
+  </div>
+  <br>
+  <div class="container">
+    <div class="container_contenidoF_otros">
+      <div class="title_R">
+        <h2 class="title_formulario">Formulario de Cónyuges e hijos</h2>
+      </div>
+      <div class="contenedor_2_3">
+
+        <div class="contenido_F">
+          <form action="/register_otros" method="POST">
+            <div>
+              <label for="tipo_documento">Tipo de Documento:</label>
+              <select id="tipo_documento1" name="tipo_documento">
+
+              </select>
+              <br /><br />
+            </div>
+
+            <div class=""> <label for="documento">Número de Documento:</label>
+              <input type="text" id="documento" name="documento" placeholder="">
+              <br /><br />
+            </div>
+            <div class="">
+              <label for="first_name">Primer Nombre:</label>
+              <input type="text" id="first_name" name="primer_nombre" placeholder="" />
+              <br /><br />
+            </div>
+
+            <div class="">
+              <label for="middle_name">Segundo Nombre:</label>
+              <input type="text" id="middle_name" name="segundo_nombre" placeholder=" (opcional)">
+              <br /><br />
+            </div>
+
+            <div class="">
+              <label for="first_last_name">Primer Apellido:</label>
+              <input type="text" id="first_last_name" name="primer_apellido" placeholder="" /><br /><br />
+            </div>
+            <div class="">
+              <label for="second_last_name">Segundo Apellido:</label>
+              <input type="text" id="second_last_name" name="segundo_apellido" placeholder="" /><br /><br />
+            </div>
+
+            <div class="">
+              <label for="genero">Género:</label>
+              <select id="mi_ComboBox_genero_otros" name="genero">
+
+              </select><br /><br />
+            </div>
+
+
+            <div class="">
+              <label for="fecha">Fecha de Nacimiento:</label>
+              <input type="date" id="date_of_birthr" name="fecha" /><br /><br />
+            </div>
+            <div class="">
+              <label for="edad">Edad:</label>
+              <input type="text" id="edadr" name="edad_afi" placeholder="" readonly>
+              <br /><br />
+            </div>
+
+            <div class="">
+              <label for="email">Correo Electrónico:</label>
+              <input type="email" id="email" name="correo_electronico" placeholder="">
+              <br /><br />
+            </div>
+            <div class="">
+              <label for="email">C. Electrónico Alternativo:</label>
+              <input type="email_alternativo" id="email_alternativo" name="correo_electronico_alternativo"
+                placeholder="">
+              <br /><br />
+            </div>
+
+            <div class="">
+              <label for="mobile_number">Número de Celular:</label>
+              <input type="tel" id="mobile_number" name="numero_celular" placeholder="">
+              <br /><br />
+            </div>
+
+
+        </div>
+
+        <div class="contenido2">
+          <div class="">
+            <label for="alternate_mobile_number">N. de Celular Alternativo:</label>
+            <input type="tel" id="alternate_mobile_number" name="numero_cel_alter" placeholder="">
+            <br /><br />
+          </div>
+
+          <div class="">
+            <label for="municipality">Municipio de Residencia:</label>
+            <input type="text" id="municipality" name="munucipio_residencia" placeholder="">
+            <br /><br />
+          </div>
+
+
+          <div class="">
+            <label for="residence_address">Dirección de Residencia:</label>
+            <input type="text" id="residence_address" name="direccion_residencia" placeholder="">
+            <br /><br />
+          </div>
+          <div class="">
+            <label for="numero_docu_afiliado">documento de afiliado:</label>
+            <input type="text" id="documentoInput" name="numero_docu_afiliado" readonly="">
+            <br /><br />
+          </div>
+          <div class="">
+            <label for="tipo_afinidad">tipo de afinidad</label>
+            <select id="afinidad" name="tipo_afinidad">
+              <option value="conyugye">CONYUGUE</option>
+              <option value="hijo">HIJO</option>
+            </select><br /><br />
+          </div>
+          <div class="">
+            <label for="talla_calzado">N. calzado</label>
+            <select name="talla_calzado" id="talla_calzado"></select>
+
+            <br /><br />
+          </div>
+
+          <div class="">
+            <label for="talla_camisa">Talla camisa</label>
+            <select name="talla_camisa" id="mi_ComboBox_talla_camisa"></select>
+            <br /><br />
+          </div>
+
+          <div class="">
+            <label for="talla_pantalon">Talla pantalon</label>
+            <select name="talla_pantalon" id="talla_pantalon"></select>
+
+            <br /><br />
+          </div>
+          <div class="">
+            <label for="pension">Pension:</label>
+            <select name="pension" id="mi_ComboBox_pensiones"></select>
+
+            <br /><br />
+          </div>
+          <div class="">
+            <label for="eps">Eps:</label>
+            <select name="eps" id="mi_ComboBox_eps"></select>
+            <br /><br />
+          </div>
+          <div class="">
+            <label for="preferencias">Preferencias:</label>
+            <input type="text" id="preferencias" name="preferencias" placeholder="">
+            <br /><br />
+          </div>
+          <div><input type="submit" value="Guardar" /></div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <% if (typeof alert !="undefined" ) { %>
+    <script>
+      Swal.fire({
+        title: '<%= alertTitle %>',
+        text: '<%= alertMessage %>',
+        icon: '<%= alertIcon %>',
+        showConfirmButton: <%= showConfirmButton %>,
+        timer: <%= timer %>
+                }).then(() => {
+          window.location = '/<%=ruta %>';
+        });
+
+    </script>
+    <% } %>
+      <script>
+        fetch('http://localhost:3000/genero')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Respuesta recibida:', data);
+            const select = document.getElementById('mi_ComboBox_genero_otros');
+            select.innerHTML = ''; // Limpiar opciones
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'SELECCIONE SU GENERO';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            select.appendChild(defaultOption);
+
+            data.forEach(genero => {
+              const option = document.createElement('option');
+              // option.value = categoria.id_pencion;
+              option.textContent = genero.tipo_genero;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error al cargar talla camisa:', error));
+
+
+
+        fetch('http://localhost:3000/talla_camisa')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Respuesta recibida:', data);
+            const select = document.getElementById('mi_ComboBox_talla_camisa');
+            select.innerHTML = ''; // Limpiar opciones
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'SELECCIONE TALLA DE CAMISA';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            select.appendChild(defaultOption);
+
+            data.forEach(talla => {
+              const option = document.createElement('option');
+              // option.value = categoria.id_pencion;
+              option.textContent = talla.talla;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error al cargar talla camisa:', error));
+
+        fetch('http://localhost:3000/talla_pantalon')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Respuesta recibida:', data);
+            const select = document.getElementById('talla_pantalon');
+            select.innerHTML = ''; // Limpiar opciones
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'SELECCIONE TALLA DE PANTALON';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            select.appendChild(defaultOption);
+
+            data.forEach(talla => {
+              const option = document.createElement('option');
+              // option.value = categoria.id_pencion;
+              option.textContent = talla.talla_pantalon;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error al cargar talla camisa:', error));
+
+        fetch('http://localhost:3000/talla_zapatos')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Respuesta recibida:', data);
+            const select = document.getElementById('talla_calzado');
+            select.innerHTML = ''; // Limpiar opciones
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'SELECCIONE TALLA DE CALZADO';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            select.appendChild(defaultOption);
+
+            data.forEach(talla_calzado => {
+              const option = document.createElement('option');
+              // option.value = categoria.id_pencion;
+              option.textContent = talla_calzado.talla_zapatos;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error al cargar talla de los zapatos:', error));
+
+
+        fetch('http://localhost:3000/tipo_documento')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Respuesta recibida:', data);
+            const select1 = document.getElementById('tipo_documento1');
+            select1.innerHTML = ''; // Limpiar opciones
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'SELECCIONE TIPO DE DOCUMENTO';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            select1.appendChild(defaultOption);
+
+            data.forEach(tipo_documento1 => {
+              const option = document.createElement('option');
+              // option.value = categoria.id_pencion;
+              option.textContent = tipo_documento1.tipo_documentocol;
+              select1.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error al cargar el tipo de documento:', error));
+
+        fetch('http://localhost:3000/eps')
+          .then(response => response.json())
+          .then(data => {
+            console.log('Respuesta recibida:', data);
+            const select = document.getElementById('mi_ComboBox_eps');
+            select.innerHTML = ''; // Limpiar opciones
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'SELECCIONE EPS';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            select.appendChild(defaultOption);
+
+            data.forEach(eps => {
+              const option = document.createElement('option');
+              // option.value = categoria.id_pencion;
+              option.textContent = eps.epscol;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error al cargar las eps:', error));
+
+        // Función para cargar las opciones del combo box
+        // Cargar opciones desde el servidor Node.js
+        fetch('http://localhost:3000/pensiones')
+          .then(response => response.json())
+          .then(data => {
+            const select = document.getElementById('mi_ComboBox_pensiones');
+            select.innerHTML = ''; // Limpiar opciones
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'SELECCIONE PENSION';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            select.appendChild(defaultOption);
+
+            data.forEach(pension => {
+              const option = document.createElement('option');
+              // option.value = categoria.id_pencion;
+              option.textContent = pension.entidad;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error al cargar las pensiones:', error));
+
+
+        // Obtener el parámetro 'documento' de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const documento = urlParams.get('numero_docu_afiliado');
+
+        // Asignar el valor al input si existe
+        if (documento) {
+          document.getElementById('documentoInput').value = documento;
+        }
+        const regresar = document.getElementById('regresar');
+        if (regresar) {
+          regresar.addEventListener('click', () => {
+            window.location.href = '/mostrar_afiliados'; // Redirige a mostrar.ejs
+            setTimeout(() => {
+              window.location.reload(); // Recarga la página después de redirigir
+            }, 100);
+          });
+        }
+        //para colocar los inputs en mayuscula
+        document.addEventListener("input", (event) => {
+          if (event.target.tagName === "INPUT") {
+            event.target.value = event.target.value.toUpperCase();
+          }
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        const numeroDocumentoAfiliado = params.get('numero_docu_afiliado');
+
+        // Asignar al botón la lógica para redirigir a la ruta correspondiente
+        document.getElementById('regresar').addEventListener('click', () => {
+          if (numeroDocumentoAfiliado) {
+            window.location.href = `/afiliado/detalles?cedula=${numeroDocumentoAfiliado}`;
+          } else {
+            alert('No se encontró un número de documento afiliado en la URL.');
+          }
+        });
+      </script>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const fechaNacimientoInput = document.getElementById('date_of_birthr');
+          const edadInput = document.getElementById('edadr');
+
+          fechaNacimientoInput.addEventListener('change', function () {
+            calcularEdad(fechaNacimientoInput.value);
+          });
+
+          function calcularEdad(fechaNacimiento) {
+            if (fechaNacimiento) {
+              const hoy = new Date();
+              const fechaNac = new Date(fechaNacimiento);
+              let edad = hoy.getFullYear() - fechaNac.getFullYear();
+              const mes = hoy.getMonth() - fechaNac.getMonth();
+
+              if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+                edad--;
+              }
+
+              edadInput.value = edad > 0 ? edad : 0;
+            }
+          }
+        });
+      </script>
+
+</body>
+
+</html>

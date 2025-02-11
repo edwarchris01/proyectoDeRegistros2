@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="resources/css/registros.css" />
+        <link rel="stylesheet" href="resources/css/inicio.css" />
+        <link rel="stylesheet" href="resources/css/diseño_registros_admin.css">
+        <link rel="stylesheet" href="resources/css/mostrar_afiliados.css">
+        <title>Document</title>
+</head>
+
+<body>
+        
+        <header>
+                <img src="/resources/imagenes/sindicato2.jpg" alt=""
+                class="imagen_logo">
+        </header>
+         <div class="menu">
+                                <button class="btn_inicio"><a href="/">inicio</a></button> 
+                              <button class="btn_admi"><a href="/mostrar_afiliados">afiliados</a> </button>
+         </div>
+        <form action="/registro_admin" method="POST"> <!-- Se agrega el formulario -->
+                <div class="contendor">
+                        <div class="contenedor_botones">
+                                                                      
+                                        <button id="afiliadosButton" class="btn_agregar"> 
+                                               <div class="contenedor_icono"> <img src="/resources/iconos/agregar-contacto.png" class="icono_afiliado"></div>
+                                               <p>AFILIADOS</p> 
+                                        </button>
+                                
+                                <button id="btn_eps" class="btn_agregar">
+                                        <div class="contenedor_icono"><img src="/resources/iconos/boton-agregar.png"
+                                        class="icono_afiliado"></div>
+                                        <p>EPS</p>
+                                </button>
+                                <button id="btn_dependencia" class="btn_agregar">
+                                        
+                                        <div class="contenedor_icono">    <img src="/resources/iconos/boton-agregar.png" class="icono_afiliado">
+                                       </div>
+                                        <p>DEPENDENCIA</p>
+                                </button>
+                                <button id="btn_pension" class="btn_agregar">
+                                        <div class="contenedor_icono">  
+                                                <img src="/resources/iconos/boton-agregar.png" class="icono_afiliado">
+                                        </div>
+                                               <p>PENSION</p>
+                                        </button>
+
+                                <button id="btn_genero" class="btn_agregar">
+                                        <div class="contenedor_icono">  <img src="/resources/iconos/boton-agregar.png" class="icono_afiliado">
+                                        </div>
+                                       <p>GENERO</p>
+                                 </button>
+
+                               <button id="btn_tipo_docu" class="btn_agregar"> 
+                                       <div class="contenedor_icono"> 
+                                         <img src="/resources/iconos/boton-agregar.png" class="icono_afiliado">
+                                        </div>
+                                                <p>TIPO DE DOCUMENTO</p>
+                                 </button>
+                               <button id="btn_tallaCamisa" class="btn_agregar">
+                                        <div class="contenedor_icono">   <img src="/resources/iconos/boton-agregar.png" class="icono_afiliado">
+                                        </div>
+                                        <p>TALLA DE CAMISA</p>
+                                 </button>
+
+                               <button id="btn_tallaPantalon" class="btn_agregar">
+                                   <div class="contenedor_icono">
+                                          <img src="/resources/iconos/boton-agregar.png" class="icono_afiliado">
+                                    </div>
+                               <p>TALLA DE PANTALON</p> 
+                                </button>
+
+                              <button id="btn_tallaZapatos" class="btn_agregar">
+                                    <div class="contenedor_icono">  
+                                        <img src="/resources/iconos/boton-agregar.png" class="icono_afiliado">
+                                    </div>
+                               <p>TALLA DE ZAPATOS</p> 
+                                </button>
+
+                                <button id="btn_entidad" class="btn_agregar">
+                                        <div class="contenedor_icono">  
+                                                <img src="/resources/iconos/boton-agregar.png" class="icono_afiliado">
+                                        </div>
+                                       <p>ENTIDAD</p> 
+                                        </button>
+
+                        </div>
+                </div>
+        </form>
+
+        <script>
+                document.getElementById('afiliadosButton').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/register'; // Redirige al usuario a la ruta /register
+                });
+                document.getElementById('btn_eps').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_eps';
+                });
+                document.getElementById('btn_pension').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_pension';
+                });
+                document.getElementById('btn_dependencia').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_dependencia'; // Redirige al usuario a la ruta /agregar_dependencia
+                });
+                document.getElementById('btn_tallaCamisa').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_talla_camisa';
+                });
+                document.getElementById('btn_tipo_docu').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_tipo_documento';
+                });
+                document.getElementById('btn_genero').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_genero';
+                });
+                document.getElementById('btn_tallaPantalon').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_talla_pantalon';
+                });
+                document.getElementById('btn_tallaZapatos').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_talla_zapatos';
+                });
+                document.getElementById('btn_entidad').addEventListener('click', function (event) {
+                        event.preventDefault(); // Previene la acción predeterminada del botón
+                        window.location.href = '/agregar_entidad';
+                });
+        </script>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/css/inicio.css">
+    <link rel="stylesheet" href="/public/css/registros.css">
+    
+    <title>REGISROS</title>
+</head>
+<body>
+    
+    <div class="">
+      <header><img src="/resources/imagenes/sindicato2.jpg" alt=""
+        class="imagen_logo"></header>
+      <hr>
+        <div class="contenedor">
+            <div class="registrar">
+                <div class="contenedor_registrar">
+                    <div class="contenedor_logo"><img src="/resources/imagenes/sindicato.jpg" alt="" class="logo_escudo"></div>
+                <div class="title_sesion">
+                    <p>Registrar <br>Administrador</p> 
+                    <p></p>   
+                               
+                </div >
+                <form  action="/register_admin"  method="POST">
+                    
+                <div class="contenedor_inpus">
+               <div class="contenedor_user">
+                <div class="input_user"><div class="contenedor_icono"><img src="resources/iconos/user.png" alt="" class="icono"></div><input type="text" name="registrar_user" id="user" class="usuario" placeholder="crear usuario" required></div>
+              </div>
+
+                <div class="contenedor_passw"> 
+                <div class="input_passw"><div class="contenedor_icono"><img src="resources/iconos/lock.png" alt="" class="icono"></div><input type="password" name="registrar_pass" id="pass" class="contraseña" placeholder="crear contraseña" required> </div>
+                </div>  
+               </div>
+              <div class="contendeor_boton"> <input type="submit" class="boton_ingresar" value="Registrar"></div>
+            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <% if (typeof alert != "undefined") { %>
+        <script>
+          Swal.fire({
+            title: '<%= alertTitle %>',
+            text: '<%= alertMessage %>',
+            icon: '<%= alertIcon %>',
+            showConfirmButton: <%= showConfirmButton %>,
+            timer: <%= timer %>
+          }).then(() => {
+            window.location = '/<%= ruta %>';
+          });
+        </script>
+      <% } %>
+      
+      
+</body>
+</html>

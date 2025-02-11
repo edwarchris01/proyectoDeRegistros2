@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Edición Personal</title>
+    <link rel="stylesheet" href="/resources/css/registros.css">
+    <link rel="stylesheet" href="/resources/css/inicio.css">
+    <link rel="stylesheet" href="/resources/css/mostrar_afiliados.css">
+</head>
+
+<body>
+    <header>
+        <img src="/resources/imagenes/sindicato2.jpg" alt=""
+        class="imagen_logo">
+    </header>
+    <div class="menu">
+        <button class="btn_inicio"><a href="/">Inicio</a></button> 
+      <button class="btn_admi"><a href="/mostrar_afiliados">Afiliados</a> </button>
+      </div>
+   <br>
+    <div class="container">
+        <div class="container_contenidoF">
+            <!-- Formulario para editar afiliado -->
+            <div class="title_R">
+                <h2 class="title_formulario">Formulario de Edición Personal del Afiliado</h2>
+            </div>
+            <form id="updateForm" action="/actualizar" method="POST" class="formulario">
+                <input type="hidden" name="tipo" value="afiliado">
+                <div class="contenedor_1_2">
+                    <div class="contenido_F">
+                        <label for="tipo_documentoafi">Tipo de Documento:</label>
+                        <input type="text" id="tipo_documentoafi" name="tipo_documento_afiliado"
+                            value="<%= afiliado.tipo_documento_afiliado %>" readonly>
+                        <br><br>
+                        <label for="numero_documentoafi">Número Documento:</label>
+                        <input type="number" id="numero_documentoafi" name="numero_documento"
+                            value="<%= afiliado.numero_documento %>" readonly>
+                        <br><br>
+                        <label for="primer_nombreafi">Primer Nombre:</label>
+                        <input type="text" id="primer_nombreafi" name="primer_nombre_afiliado"
+                            value="<%= afiliado.primer_nombre_afiliado %>" required>
+                        <br><br>
+                        <label for="segundo_nombreafi">Segundo Nombre:</label>
+                        <input type="text" id="segundo_nombreafi" name="segundo_nombre_afiliado"
+                            value="<%= afiliado.segundo_nombre_afiliado %>">
+                        <br><br>
+                        <label for="primer_apellidoafi">Primer Apellido:</label>
+                        <input type="text" id="primer_apellidoafi" name="primer_apellido_afiliado"
+                            value="<%= afiliado.primer_apellido_afiliado %>" required>
+                        <br><br>
+                        <label for="segundo_apellidoafi">Segundo Apellido:</label>
+                        <input type="text" id="segundo_apellidoafi" name="segundo_apellido_afiliado"
+                            value="<%= afiliado.segundo_apellido_afiliado %>">
+                        <br><br>
+                        <label for="generoafi">Género:</label>
+                        <select id="generoafi" name="genero_afiliado">
+                            <% if (afiliado.genero_afiliado) { %>
+                                <option value="<%= afiliado.genero_afiliado %>" selected>
+                                    <%= afiliado.genero_afiliado %>
+                                </option>
+                                <% } else { %>
+                                    <% } %>
+                                        <!-- Las opciones de género se agregarán aquí -->
+                        </select>
+                        <br><br>
+
+                        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento_afiliado" value="<%= afiliado.fecha_nacimiento_afiliado 
+                           ? new Date(afiliado.fecha_nacimiento_afiliado).toISOString().split('T')[0] 
+                           : '' %>">
+                        <br>
+                        <label for="edad_nacimiento">Edad:</label>
+                        <input type="number" id="edad_nacimiento" name="edad_afiliado"
+                            value="<%= afiliado.edad_afiliado %>" readonly>
+
+                    </div>
+                    <!-- Información adicional del afiliado -->
+                    <div class="contenido2">
+                        <label for="correo_electronicoafi">Correo Electrónico:</label>
+                        <input type="email" id="correo_electronicoafi" name="correo_electronico_afiliado"
+                            value="<%= afiliado.correo_electronico_afiliado %>">
+                        <br><br>
+                        <label for="correo_electronico_alternativoafi">Correo Electrónico Alternativo:</label>
+                        <input type="email" id="correo_electronico_alternativoafi"
+                            name="correo_electronico_alternativo_afiliado"
+                            value="<%= afiliado.correo_electronico_alternativo_afiliado %>">
+                        <br><br>
+                        <label for="numero_celularafi">Número de Celular:</label>
+                        <input type="text" id="numero_celularafi" name="numero_celular_afiliado"
+                            value="<%= afiliado.numero_celular_afiliado %>">
+                        <br><br>
+                        <label for="numero_cel_alternativoafi">Número de Celular Alternativo:</label>
+                        <input type="text" id="numero_cel_alternativoafi" name="numero_celular_alternativo_afiliado"
+                            value="<%= afiliado.numero_celular_alternativo_afiliado %>">
+                        <br><br>
+                        <label for="municipio_residenciaafi">Municipio de Residencia:</label>
+                        <input type="text" id="municipio_residenciaafi" name="municipio_residencia_afiliado"
+                            value="<%= afiliado.municipio_residencia_afiliado %>">
+                        <br><br>
+                        <label for="direccion_residenciaafi">Dirección de Residencia:</label>
+                        <input type="text" id="direccion_residenciaafi" name="direccion_residencia_afiliado"
+                            value="<%= afiliado.direccion_residencia_afiliado %>">
+                        <br><br>
+                        <label for="entidadafi">Entidad:</label>
+                        <select id="entidades_select" name="entidad_afiliado">
+                            <% if (afiliado.entidad_afiliado) { %>
+                                <option value="<%= afiliado.entidad_afiliado %>" selected>
+                                    <%= afiliado.entidad_afiliado %>
+                                </option>
+                                <% } else { %>
+                                    <% } %>
+                                        <!-- Las opciones de entidades se agregarán aquí -->
+                        </select>
+                        <br><br>
+                        <label for="dependenciaafi">Dependencias:</label>
+                        <select id="dependenciaafi" name="dependencia_afiliado">
+                            <% if (afiliado.dependencia_afiliado) { %>
+                                <option value="<%= afiliado.dependencia_afiliado %>" selected>
+                                    <%= afiliado.dependencia_afiliado %>
+                                </option>
+                                <% } else { %>
+                                    <% } %>
+                                        <!-- Las opciones de entidades se agregarán aquí -->
+                        </select>
+                        <br><br>
+                        <div><button type="submit" id="actualizar_afiliado" class="btn_actualizar">Actualizar</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Manejo del formulario de afiliado con confirmación
+        document.getElementById('updateForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Deseas actualizar los datos del afiliado?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, actualizar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Usuario confirmó, enviar los datos
+                    const formData = new FormData(this);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        data[key] = value;
+                    });
+                    console.log(data);
+
+
+                    fetch('/actualizar', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data), // Convierte los datos a JSON
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                Swal.fire({
+                                    title: '¡Éxito!',
+                                    text: data.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK',
+                                    confirmButtonColor: '#3085d6',
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un error al actualizar los datos del afiliado.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Entendido',
+                                    confirmButtonColor: '#d33',
+                                });
+                            }
+                        })
+
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Hubo un error al actualizar los datos.',
+                                icon: 'error',
+                                confirmButtonText: 'Entendido',
+                                confirmButtonColor: '#d33',
+                            });
+                        });
+                } else {
+                    Swal.fire({
+                        title: 'Cancelado',
+                        text: 'La acción ha sido cancelada.',
+                        icon: 'info',
+                        confirmButtonText: 'Entendido',
+                        confirmButtonColor: '#3085d6',
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        // Cargar géneros
+        fetch('http://localhost:3000/genero')
+            .then(response => response.json())
+            .then(data => {
+                const selectGenero = document.getElementById('generoafi');
+                selectGenero.innerHTML = ''; // Limpiar opciones
+
+                data.forEach(genero => {
+                    console.log(genero); // Verifica cada objeto de género
+                    const option = document.createElement('option');
+                    option.value = genero.id || genero.tipo_genero; 
+                    option.textContent = genero.tipo_genero;
+                    selectGenero.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar los géneros:', error));
+
+
+        // Cargar entidades
+        fetch('http://localhost:3000/entidades')
+            .then(response => response.json())
+            .then(data => {
+                const selectEntidad = document.getElementById('entidades_select');
+                selectEntidad.innerHTML = ''; // Limpiar opciones
+
+                data.forEach(entidad => {
+                    const option = document.createElement('option');
+                    option.value = entidad.entidad; // Cambiar a 'entidad' si quieres enviar el nombre
+                    option.textContent = entidad.entidad; // Asegurándote de que el nombre de la entidad sea mostrado
+                    selectEntidad.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar las entidades:', error));
+
+            fetch('http://localhost:3000/dependencia')
+            .then(response => response.json())
+            .then(data => {
+                const selectdependencia = document.getElementById('dependenciaafi');
+                selectdependencia.innerHTML = ''; // Limpiar opciones
+        
+                data.forEach(dependencia => {
+                    console.log(dependencia); // Añade este console.log para verificar los datos
+                    const option = document.createElement('option');
+                    option.value = dependencia.id || dependencia.dependencia;
+                    option.textContent = dependencia.dependencia; 
+                    selectdependencia.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar las entidades:', error));
+        
+
+        document.addEventListener("input", (event) => {
+            if (event.target.tagName === "INPUT") {
+                event.target.value = event.target.value.toUpperCase();
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+            const edadInput = document.getElementById('edad_nacimiento');
+    
+            // Evento cuando cambia la fecha de nacimiento
+            fechaNacimientoInput.addEventListener('input', function () {
+                calcularEdad(fechaNacimientoInput.value);
+            });
+    
+            function calcularEdad(fechaNacimiento) {
+                if (fechaNacimiento) {
+                    const hoy = new Date();
+                    const fechaNac = new Date(fechaNacimiento);
+                    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+                    const mes = hoy.getMonth() - fechaNac.getMonth();
+    
+                    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+                        edad--;
+                    }
+                    // Si la edad es negativa, poner 0
+                    edadInput.value = edad > 0 ? edad : 0;
+                }
+            }
+            // Calcular edad al cargar la página si hay fecha de nacimiento
+            if (fechaNacimientoInput.value) {
+                calcularEdad(fechaNacimientoInput.value);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

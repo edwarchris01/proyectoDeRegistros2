@@ -1,0 +1,37 @@
+.title_sesion_admi{
+    text-align: center;
+    height: 50px;
+    }
+    p{
+        margin: 4px;
+    }
+    .title_admi{
+        font-size: 15px;
+    }
+    
+    .menu{
+        background-color: green;
+        display: flex;
+        justify-content: center;
+    height: 35px;
+       }
+    .btn_inicio{
+        width: fit-content;
+        height: 25px;
+    background-color: rgb(208, 182, 9);
+    color: white;
+    font-size: 17px;
+    margin: 5px;
+       }
+    .btn_admi{
+        width: fit-content;
+    background-color: rgb(250, 0, 0);
+    color: white;
+    margin-left: 2%;
+    font-size: 17px;
+    margin: 5px;
+       }
+    a{
+        color: white;
+        text-decoration: none;
+    }

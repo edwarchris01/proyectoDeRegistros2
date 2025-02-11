@@ -1,0 +1,55 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.contenedor_botones{
+display: flex;
+justify-content: center;
+}
+.input {
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    border:none;
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.705); 
+    text-align: center;
+    font-size: 17px;
+}
+form{
+   display: flex;         
+}
+h2{
+    text-align: center;
+    margin-top: 10px;
+}
+.boton_agregar{
+    margin-left: 2%;
+    background-color: red;
+    width: 100px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+
+}
+.boton_agregar:hover{
+background-color: green;
+transform: scale(1.1);
+}
+.contenedor_registro{
+    margin-top: 10%;
+    box-shadow:  1px 1px 5px  rgba(0, 0, 0, 0.333); 
+
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
