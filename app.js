@@ -1660,6 +1660,6 @@ app.use((req, res) => {
   res.status(404).json({ mensaje: 'Ruta no encontrada' });
 });
 //para  entrar al servidor local
-app.listen(8080, "0.0.0.0", () => {
+app.listen(8080, () => {
   console.log("SERVER RUNNING IN http://172.16.66.185:8080");
 }); 
