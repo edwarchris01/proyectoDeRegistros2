@@ -1,16 +1,16 @@
+// const connection = require("./base_de_Datos/conexion.js");
 const express = require("express");
 const app = express(); //para utilizar todos los metodos de la libreria
 const bodyParser = require('body-parser');
 const bcrypt = require("bcryptjs");
 
-
-
+ 
 //para capturara los datos de los inputs
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const dotenv = require("dotenv");
-dotenv.config({ path: "./env/.env" }); // para lir a la raiz de proyecto para invocar el env
+dotenv.config({path: "./env/.env" }); // para lir a la raiz de proyecto para invocar el env
 
 app.use("/resources", express.static('public'));
 app.use("/resources", express.static(__dirname + "/public"));
