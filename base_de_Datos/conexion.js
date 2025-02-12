@@ -8,14 +8,17 @@ const connection = mysql.createConnection({
   password:process.env.DB_PASSWORD, 
   database:process.env.DB_DATABASE
 });
-connection.connect((error)=>{
-  if (error){
-    console.log('hay un error en la base de datos :'  + error);
-    return
-  }
-   console.log('conexion exitosa');
-});
+
+  connection.connect((error) => {
+    if (error) {
+      console.error('❌ Hay un error en la base de datos:', error.message);
+      process.exit(1); // Finaliza el proceso para evitar errores posteriores
+    }
+    console.log('✅ Conexión a la base de datos exitosa');
+  });
 module.exports= connection;
+
+
 
 // const mysql = require('mysql2');
 // const bcryptjs = require('bcryptjs');

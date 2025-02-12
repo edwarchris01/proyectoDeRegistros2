@@ -1,4 +1,4 @@
-// const connection = require("./base_de_Datos/conexion.js");
+const connection = require('./base_de_Datos/conexion');
 const express = require("express");
 const app = express(); //para utilizar todos los metodos de la libreria
 const bodyParser = require('body-parser');
@@ -17,6 +17,17 @@ app.use("/resources", express.static(__dirname + "/public"));
 
 //motor de platilla
 app.set('view engine', 'ejs');
+
+// Ruta correcta a tu archivo de conexión
+
+// Usar la conexión en tus consultas o controladores
+connection.query('SELECT 1', (error, results) => {
+  if (error) {
+    console.error('❌ Error ejecutando la consulta:', error);
+    return;
+  }
+  console.log('✅ Consulta de prueba ejecutada correctamente:', results);
+});
 
 //invoca a bcryptjs
 const bcryptjs = require('bcryptjs');
@@ -528,7 +539,7 @@ app.post('/agregar_talla_camisa', (req, res) => {
 
   // Realiza la consulta para insertar la nueva EPS
   const query = 'INSERT INTO talla_camisa (talla, estado) VALUES (?, ?)';
-  conexion.query(query, [nombre, estado], (error, results) => {
+  connection.query(query, [nombre, estado], (error, results) => {
     if (error) {
       console.error("Error al agregar EPS:", error);
       return res.status(500).send("Error al agregar la EPS.");
@@ -546,7 +557,7 @@ app.post('/agregar_eps', (req, res) => {
 
   // Realiza la consulta para insertar la nueva EPS
   const query = 'INSERT INTO eps (epscol, estado) VALUES (?, ?)';
-  conexion.query(query, [nombre, estado], (error, results) => {
+  connection.query(query, [nombre, estado], (error, results) => {
     if (error) {
       console.error("Error al agregar EPS:", error);
       return res.status(500).send("Error al agregar la EPS.");
@@ -564,7 +575,7 @@ app.post('/agregar_dependencia', (req, res) => {
 
   // Realiza la consulta para insertar la nueva EPS
   const query = 'INSERT INTO dependencias (dependencia, estado) VALUES (?, ?)';
-  conexion.query(query, [nombre, estado], (error, results) => {
+  connection.query(query, [nombre, estado], (error, results) => {
     if (error) {
       console.error("Error al agregar DEPENDENCIA:", error);
       return res.status(500).send("Error al agregar la DEPENDENCIA.");
@@ -582,7 +593,7 @@ app.post('/agregar_tipo_documento', (req, res) => {
 
   // Realiza la consulta para insertar la nueva EPS
   const query = 'INSERT INTO tipo_documento (tipo_documentocol, estado) VALUES (?, ?)';
-  conexion.query(query, [nombre, estado], (error, results) => {
+  connection.query(query, [nombre, estado], (error, results) => {
     if (error) {
       console.error("Error al agregar EPS:", error);
       return res.status(500).send("Error al agregar la EPS.");
@@ -626,7 +637,7 @@ app.post('/agregar_talla_camisa', (req, res) => {
 
   // Realiza la consulta para insertar la nueva EPS
   const query = 'INSERT INTO talla_camisa (talla, estado) VALUES (?, ?)';
-  conexion.query(query, [nombre, estado], (error, results) => {
+  connection.query(query, [nombre, estado], (error, results) => {
     if (error) {
       console.error("Error al agregar EPS:", error);
       return res.status(500).send("Error al agregar la EPS.");
@@ -919,7 +930,7 @@ app.get('/filtrar-edad', (req, res) => {
     SELECT * FROM afiliados
     WHERE TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN ? AND ?`;
 
-  conexion.query(query, [edadMin, edadMax], (err, results) => {
+  connection.query(query, [edadMin, edadMax], (err, results) => {
     if (err) {
       return res.status(500).send('Error en la consulta');
     }
@@ -1022,7 +1033,7 @@ app.post('/actualizar', (req, res) => {
     } = req.body;
     const query = `CALL editar_afiliado2(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    conexion.query(query, [
+    connection.query(query, [
       tipo_documento_afiliado, numero_documento, primer_nombre_afiliado, segundo_nombre_afiliado,
       primer_apellido_afiliado, segundo_apellido_afiliado, fecha_nacimiento_afiliado, edad_afiliado, genero_afiliado,
       correo_electronico_afiliado, correo_electronico_alternativo_afiliado, numero_celular_afiliado,
@@ -1078,7 +1089,7 @@ app.post('/actualizar_coyugue_hijos', async (req, res) => {
       const query = `CALL EditarHijoConyuge(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
       // Ejecutamos la consulta
-      conexion.query(query, [
+      connection.query(query, [
         tipo_documento_hijo_conyuge, numero_documento_hijo_conyuge, primer_nombre_hijo_conyuge, segundo_nombre_hijo_conyuge,
         primer_apellido_hijo_conyuge, segundo_apellido_hijo_conyuge, fecha_nacimiento_hijo_conyuge, edad_hijo_conyuge,
         genero_hijo_conyuge, correo_electronico_hijo_conyuge, correo_electronico_alternativo_hijo_conyuge, numero_celular_hijo_conyuge,
@@ -1234,25 +1245,6 @@ app.get('/buscarPorEntidad', (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const conexion = require('./base_de_Datos/conexion');
-const connection = require("./base_de_Datos/conexion");
 app.get("/mostrar_afiliados", (req, res) => {
   res.render("mostrar_afiliados");
 });
@@ -1356,7 +1348,7 @@ app.post('/register', (req, res) => {
   // Usamos destructuración para simplificar
 
   // Inserta los valores en la base de datos
-  conexion.query(
+  connection.query(
     'INSERT INTO afiliados SET ?',
     {
       tipo_documento: tipo_documento,
@@ -1426,7 +1418,7 @@ app.post('/register_otros', (req, res) => {
   // Usamos destructuración para simplificar
 
   // Inserta los valores en la base de datos
-  conexion.query(
+  connection.query(
     'INSERT INTO hijos_conyugue SET ?',
     {
       tipo_documento: tipo_documento,
@@ -1500,7 +1492,7 @@ app.post("/register_conyu_hijo", (req, res) => {
   const preferencias = req.body.preferencias;
 
   // Inserta los valores en la base de datos
-  conexion.query(
+  connection.query(
     "INSERT INTO hijos_conyugue SET ?",
     {
       tipo_documento: tipo_documento,
